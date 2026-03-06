@@ -3,759 +3,687 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#1a0a00">
+<meta name="theme-color" content="#c45c1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="data:application/json,{%22name%22:%22Tariflerim%22,%22short_name%22:%22Tariflerim%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%230f0800%22,%22theme_color%22:%22%23c45c1a%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍽%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22any%22,%22type%22:%22image/svg+xml%22}]}">
 <title>Tariflerim</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0f0800;
-    --surface: #1c1005;
-    --card: #251608;
-    --accent: #e8a043;
-    --accent2: #c45c1a;
-    --text: #f5e6cc;
-    --muted: #8a6a45;
-    --border: #3a2210;
-    --radius: 16px;
-  }
+:root {
+  --bg: #0f0800;
+  --surface: #1a0e04;
+  --card: #221305;
+  --card2: #2a1a08;
+  --accent: #e8a043;
+  --accent2: #c45c1a;
+  --accent3: #f0c070;
+  --text: #f5e6cc;
+  --muted: #8a6a45;
+  --border: #3a2210;
+  --radius: 18px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  /* Background texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 20%, rgba(232,160,67,0.07) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(196,92,26,0.07) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(232,160,67,0.10) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 85%, rgba(196,92,26,0.10) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(240,192,112,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-  #app { position: relative; z-index: 1; }
+#app { position: relative; z-index: 1; }
 
-  /* ── HEADER ── */
-  .header {
-    background: linear-gradient(180deg, #1c1005 0%, transparent 100%);
-    padding: 20px 20px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(12px);
-  }
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(180deg, rgba(26,14,4,0.98) 0%, rgba(26,14,4,0.7) 100%);
+  padding: 16px 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
 
-  .header-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 6px;
-  }
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
 
-  .back-btn {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--accent);
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-  .back-btn:active { transform: scale(0.9); }
-  .back-btn.visible { display: flex; }
+.back-btn {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.back-btn:active { transform: scale(0.88); background: var(--accent); color: #000; }
+.back-btn.visible { display: flex; }
 
-  .title-block { flex: 1; }
+.title-block { flex: 1; min-width: 0; }
 
-  .app-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 900;
-    color: var(--accent);
-    line-height: 1;
-  }
+.app-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  .breadcrumb {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.app-title-icon {
+  font-size: 22px;
+  filter: drop-shadow(0 0 6px rgba(232,160,67,0.5));
+}
 
-  .drive-btn {
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .drive-btn:active { transform: scale(0.95); }
-  .drive-btn.connected { color: #4caf7d; border-color: #4caf7d44; }
+.breadcrumb {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin-top: 16px;
-  }
+.drive-btn {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 7px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.18s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.drive-btn:active { transform: scale(0.94); }
+.drive-btn.connected { color: #5ecf8a; border-color: rgba(94,207,138,0.35); background: rgba(94,207,138,0.08); }
 
-  /* ── SCREENS ── */
-  .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
-  .screen.active { display: block; }
+.header-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,160,67,0.25), transparent);
+  margin-top: 10px;
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* ── SCREENS ── */
+.screen { display: none; padding: 16px; animation: fadeUp 0.28s ease; }
+.screen.active { display: block; }
 
-  /* ── AUTH SCREEN ── */
-  .auth-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px 24px;
-    text-align: center;
-    margin-top: 40px;
-  }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  .auth-icon { font-size: 56px; margin-bottom: 16px; }
+/* ── AUTH SCREEN ── */
+.auth-card {
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  margin-top: 20px;
+  box-shadow: var(--shadow);
+}
 
-  .auth-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
+.auth-icon { font-size: 52px; margin-bottom: 14px; filter: drop-shadow(0 4px 12px rgba(232,160,67,0.3)); }
+.auth-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent); margin-bottom: 8px; }
+.auth-desc { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 24px; }
 
-  .auth-desc {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 28px;
-  }
+.btn-primary {
+  background: linear-gradient(135deg, #e8a043, #c45c1a);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.18s;
+  font-family: 'Nunito', sans-serif;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 16px rgba(196,92,26,0.35);
+}
+.btn-primary:active { transform: scale(0.97); opacity: 0.88; }
 
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #fff;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-    transition: all 0.2s;
-    font-family: 'Nunito', sans-serif;
-  }
-  .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+.setup-steps { margin-top: 22px; text-align: left; }
+.step { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.step:last-child { border-bottom: none; }
+.step-num { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #000; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.step-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.step-text strong { color: var(--text); }
 
-  .setup-steps {
-    margin-top: 24px;
-    text-align: left;
-  }
+/* ── SETUP CARD ── */
+.setup-card {
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
 
-  .step {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .step:last-child { border-bottom: none; }
+.setup-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 7px; }
 
-  .step-num {
-    background: var(--accent);
-    color: #000;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+.setup-input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-size: 14px;
+  width: 100%;
+  font-family: 'Nunito', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232,160,67,0.12); }
+.setup-input::placeholder { color: var(--muted); }
+.setup-hint { font-size: 11px; color: var(--muted); margin-top: 7px; line-height: 1.5; }
 
-  .step-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
-  .step-text strong { color: var(--text); }
+/* ── SECTION LABEL ── */
+.section-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  margin-bottom: 12px;
+  padding-left: 2px;
+}
 
-  /* ── SETUP SCREEN ── */
-  .setup-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 16px;
-  }
+/* ── CATEGORIES GRID ── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
 
-  .setup-label {
-    font-size: 12px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-  }
+.cat-card {
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 14px 16px;
+  cursor: pointer;
+  transition: all 0.18s;
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+}
 
-  .setup-input {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    color: var(--text);
-    font-size: 14px;
-    width: 100%;
-    font-family: 'Nunito', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .setup-input:focus { border-color: var(--accent); }
-  .setup-input::placeholder { color: var(--muted); }
+.cat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: 0;
+  transition: opacity 0.18s;
+}
 
-  .setup-hint {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 8px;
-    line-height: 1.5;
-  }
+.cat-card:active { transform: scale(0.96); border-color: var(--accent); }
+.cat-card:active::after { opacity: 1; }
 
-  /* ── CATEGORIES ── */
-  .section-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 14px;
-    padding-left: 4px;
-  }
+.cat-emoji {
+  font-size: 36px;
+  margin-bottom: 10px;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
 
-  .categories-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+.cat-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+}
 
-  .cat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-    min-height: 110px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+.cat-count {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
 
-  .cat-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(232,160,67,0.08), transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
+.cat-arrow {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  color: var(--accent);
+  font-size: 18px;
+  opacity: 0.5;
+}
 
-  .cat-card:active::before { opacity: 1; }
-  .cat-card:active { transform: scale(0.97); border-color: var(--accent); }
+/* ── QUICK LINKS (Ana menü alt kısmı) ── */
+.quick-links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-  .cat-emoji { font-size: 32px; margin-bottom: 8px; }
+.quick-link-card {
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.18s;
+  box-shadow: var(--shadow);
+}
+.quick-link-card:active { transform: scale(0.97); border-color: var(--accent); }
 
-  .cat-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-  }
+.ql-icon {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
 
-  .cat-count {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
+.ql-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
+.ql-icon.supercook { background: linear-gradient(135deg, #ff6b35, #f7931e); font-size: 28px; }
+.ql-icon.turkomp { background: #fff; padding: 6px; }
 
-  .cat-arrow {
-    position: absolute;
-    bottom: 14px;
-    right: 14px;
-    color: var(--accent);
-    font-size: 16px;
-    opacity: 0.6;
-  }
+.ql-info { flex: 1; min-width: 0; }
 
-  /* ── FILE LIST ── */
-  .file-list { display: flex; flex-direction: column; gap: 10px; }
+.ql-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
 
-  .file-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+.ql-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+.ql-arrow { color: var(--accent); font-size: 18px; opacity: 0.6; flex-shrink: 0; }
 
-  .file-item:active { transform: scale(0.98); border-color: var(--accent); }
+.ql-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0;
+}
+.ql-divider-line { flex: 1; height: 1px; background: var(--border); }
+.ql-divider-text { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-  .file-icon-wrap {
-    width: 44px; height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
+/* ── FILE LIST ── */
+.file-list { display: flex; flex-direction: column; gap: 8px; }
 
-  .file-icon-wrap.video { background: rgba(196,92,26,0.2); }
-  .file-icon-wrap.image { background: rgba(76,175,125,0.2); }
-  .file-icon-wrap.pdf { background: rgba(239,83,80,0.2); }
-  .file-icon-wrap.text { background: rgba(100,149,237,0.2); }
-  .file-icon-wrap.folder { background: rgba(232,160,67,0.2); }
+.file-item {
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.18s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+.file-item:active { transform: scale(0.97); border-color: var(--accent); }
 
-  .file-info { flex: 1; min-width: 0; }
+.file-icon-wrap {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.file-icon-wrap.video { background: rgba(196,92,26,0.18); }
+.file-icon-wrap.image { background: rgba(94,207,138,0.15); }
+.file-icon-wrap.pdf { background: rgba(239,83,80,0.15); }
+.file-icon-wrap.text { background: rgba(100,149,237,0.15); }
+.file-icon-wrap.folder { background: rgba(232,160,67,0.18); }
 
-  .file-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.file-info { flex: 1; min-width: 0; }
+.file-name { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-meta { font-size: 10px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+.file-chevron { color: var(--muted); font-size: 18px; flex-shrink: 0; opacity: 0.6; }
 
-  .file-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+/* ── VIEWER ── */
+.viewer-container { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; box-shadow: var(--shadow); }
+.viewer-video { width: 100%; background: #000; display: block; max-height: 56vw; }
+.viewer-image { width: 100%; display: block; border-radius: var(--radius); }
+.viewer-pdf { width: 100%; height: 72vh; border: none; display: block; }
+.viewer-text { padding: 20px; font-size: 14px; line-height: 1.85; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+.viewer-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--accent); margin-bottom: 4px; }
+.viewer-meta { font-size: 11px; color: var(--muted); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .file-chevron { color: var(--muted); font-size: 16px; flex-shrink: 0; }
+/* ── LOADING ── */
+.loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 70px 20px; gap: 16px; }
+.spinner { width: 38px; height: 38px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { color: var(--muted); font-size: 13px; }
 
-  /* ── VIEWER ── */
-  .viewer-container {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
+/* ── MSG BOX ── */
+.msg-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px 18px; text-align: center; margin-top: 16px; }
+.msg-icon { font-size: 38px; margin-bottom: 10px; }
+.msg-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.msg-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-  .viewer-video {
-    width: 100%;
-    max-height: 55vw;
-    background: #000;
-    display: block;
-  }
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 14px;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.18s;
+}
+.btn-secondary:active { background: var(--accent); color: #000; }
 
-  .viewer-image {
-    width: 100%;
-    display: block;
-    border-radius: var(--radius);
-  }
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  z-index: 999;
+  white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(196,92,26,0.4);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
 
-  .viewer-pdf {
-    width: 100%;
-    height: 70vh;
-    border: none;
-    display: block;
-  }
-
-  .viewer-text {
-    padding: 20px;
-    font-size: 14px;
-    line-height: 1.8;
-    color: var(--text);
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .viewer-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--accent);
-    margin-bottom: 6px;
-  }
-
-  .viewer-meta {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  /* ── LOADING ── */
-  .loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    gap: 16px;
-  }
-
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-text { color: var(--muted); font-size: 14px; }
-
-  /* ── ERROR / EMPTY ── */
-  .msg-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px 20px;
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .msg-icon { font-size: 40px; margin-bottom: 12px; }
-  .msg-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-  .msg-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-  .btn-secondary {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 16px;
-    font-family: 'Nunito', sans-serif;
-    transition: all 0.2s;
-  }
-  .btn-secondary:active { background: var(--accent); color: #000; }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--accent);
-    color: #000;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    transition: transform 0.3s;
-    z-index: 999;
-    white-space: nowrap;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* ── BOTTOM SAFE AREA ── */
-  .safe-bottom { height: 30px; }
+.safe-bottom { height: 32px; }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-top">
-      <button class="back-btn" id="backBtn" onclick="goBack()">‹</button>
-      <div class="title-block">
-        <div class="app-title">🍽 Tariflerim</div>
-        <div class="breadcrumb" id="breadcrumb">Ana Menü</div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <button class="back-btn" id="backBtn" onclick="goBack()">‹</button>
+    <div class="title-block">
+      <div class="app-title">
+        <span class="app-title-icon">🍽</span> Tariflerim
       </div>
-      <button class="drive-btn" id="driveBtn" onclick="handleDriveBtn()">
-        <span>▲</span> <span id="driveBtnText">Drive</span>
-      </button>
+      <div class="breadcrumb" id="breadcrumb">Ana Menü</div>
     </div>
-    <div class="divider"></div>
+    <button class="drive-btn" id="driveBtn" onclick="handleDriveBtn()">
+      <span>▲</span><span id="driveBtnText">Drive</span>
+    </button>
   </div>
-
-  <!-- AUTH SCREEN -->
-  <div class="screen active" id="screen-auth">
-    <div class="auth-card">
-      <div class="auth-icon">🔑</div>
-      <div class="auth-title">Google Drive'a Bağlan</div>
-      <div class="auth-desc">
-        Tariflerini Drive'dan okumak için bir kez Google hesabınla giriş yapman yeterli. Dosyalar telefonunda yer kaplamaz.
-      </div>
-      <button class="btn-primary" onclick="startOAuth()">
-        Google ile Giriş Yap
-      </button>
-      <div class="setup-steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-text"><strong>Google hesabını seç</strong> — açılan pencerede Drive erişimine izin ver</div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-text"><strong>Ana klasör adını gir</strong> — Drive'daki "Tarifler" klasörünün adı ne?</div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-text"><strong>Hazır!</strong> Tüm kategoriler ve tarifler otomatik yüklenecek</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="setup-card" style="margin-top:16px">
-      <div class="setup-label">Hızlı Kurulum</div>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:16px; line-height:1.6">
-        Google ile giriş yapmadan önce, Drive'daki ana klasörünün adını gir:
-      </p>
-      <div style="margin-bottom:12px">
-        <div class="setup-label">Ana Klasör Adı</div>
-        <input class="setup-input" id="rootFolderName" type="text" placeholder="Tarifler" value="Tarifler">
-        <div class="setup-hint">Drive'da en üstteki klasörün tam adı (büyük/küçük harf önemli)</div>
-      </div>
-      <div style="margin-bottom:12px">
-        <div class="setup-label">Google Client ID</div>
-        <input class="setup-input" id="clientIdInput" type="text" placeholder="xxxx.apps.googleusercontent.com">
-        <div class="setup-hint">
-          ⚙️ <a href="#" onclick="showClientIdHelp()" style="color:var(--accent)">Client ID nasıl alınır?</a> — 5 dakika, ücretsiz
-        </div>
-      </div>
-      <div id="redirectUriBox" style="display:none; margin-top:12px; padding:12px; background:var(--surface); border-radius:10px; border:1px solid var(--accent)">
-        <div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:6px">⚠️ Google Cloud'a Bu Adresi Ekle</div>
-        <div id="redirectUriText" style="font-size:11px; color:var(--text); word-break:break-all; font-family:monospace; padding:8px; background:var(--bg); border-radius:6px"></div>
-        <div style="font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5">Bunu hem <strong>Authorized JavaScript origins</strong> hem de <strong>Authorized redirect URIs</strong> alanına ekle → Kaydet → Tekrar Baglan a bas</div>
-        <button onclick="copyRedirectUri()" style="margin-top:10px; width:100%; padding:10px; background:transparent; border:1px solid var(--accent); color:var(--accent); border-radius:8px; cursor:pointer; font-size:13px; font-family:Nunito,sans-serif">Adresi Kopyala</button>
-      </div>
-      <button class="btn-primary" onclick="saveAndConnect()" style="margin-top:8px">
-        Kaydet ve Bağlan
-      </button>
-    </div>
-    <div class="safe-bottom"></div>
-  </div>
-
-  <!-- CLIENT ID HELP -->
-  <div class="screen" id="screen-help">
-    <div class="setup-card">
-      <div class="setup-label" style="color:var(--accent)">Client ID Nasıl Alınır?</div>
-      <div style="font-size:13px; color:var(--muted); line-height:1.8">
-        <p style="margin-bottom:12px">Bu uygulama Drive'ına erişmek için Google'ın ücretsiz API'sini kullanır. Bir kez kurulur, bir daha dokunmazsın.</p>
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-text">Tarayıcında <strong style="color:var(--text)">console.cloud.google.com</strong> aç</div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-text"><strong style="color:var(--text)">Yeni Proje</strong> oluştur → istediğin ismi ver</div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-text">Sol menü → <strong style="color:var(--text)">API ve Hizmetler → Kitaplık</strong> → "Google Drive API" ara → Etkinleştir</div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-text"><strong style="color:var(--text)">Kimlik Bilgileri → Kimlik Bilgisi Oluştur → OAuth 2.0 İstemci Kimliği</strong></div>
-        </div>
-        <div class="step">
-          <div class="step-num">5</div>
-          <div class="step-text">Uygulama türü: <strong style="color:var(--text)">Web Uygulaması</strong> → Yetkili JavaScript kaynağı: bu sayfanın URL'ini ekle</div>
-        </div>
-        <div class="step">
-          <div class="step-num">6</div>
-          <div class="step-text">Oluşturulan <strong style="color:var(--text)">Client ID'yi kopyala</strong> → uygulamaya yapıştır</div>
-        </div>
-      </div>
-    </div>
-    <button class="btn-secondary" onclick="showScreen('auth')" style="width:100%">← Geri Dön</button>
-    <div class="safe-bottom"></div>
-  </div>
-
-  <!-- LOADING -->
-  <div class="screen" id="screen-loading">
-    <div class="loading">
-      <div class="spinner"></div>
-      <div class="loading-text" id="loadingText">Yükleniyor...</div>
-    </div>
-  </div>
-
-  <!-- CATEGORIES -->
-  <div class="screen" id="screen-categories">
-    <div class="section-label">Kategoriler</div>
-    <div class="categories-grid" id="categoriesGrid"></div>
-    <div class="safe-bottom"></div>
-  </div>
-
-  <!-- FILE LIST -->
-  <div class="screen" id="screen-files">
-    <div class="file-list" id="fileList"></div>
-    <div class="safe-bottom"></div>
-  </div>
-
-  <!-- VIEWER -->
-  <div class="screen" id="screen-viewer">
-    <div class="viewer-title" id="viewerTitle"></div>
-    <div class="viewer-meta" id="viewerMeta"></div>
-    <div class="viewer-container" id="viewerContent"></div>
-    <div class="safe-bottom"></div>
-  </div>
-
+  <div class="header-divider"></div>
 </div>
 
-<!-- TOAST -->
+<!-- AUTH SCREEN -->
+<div class="screen active" id="screen-auth">
+  <div class="auth-card">
+    <div class="auth-icon">🔑</div>
+    <div class="auth-title">Google Drive'a Bağlan</div>
+    <div class="auth-desc">Tariflerini Drive'dan okumak için bir kez Google hesabınla giriş yap. Dosyalar telefonunda yer kaplamaz.</div>
+    <button class="btn-primary" onclick="startOAuth()">Google ile Giriş Yap</button>
+    <div class="setup-steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Google hesabını seç</strong> — Drive erişimine izin ver</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Ana klasör adını gir</strong> — Drive'daki klasörünün adı</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Hazır!</strong> Kategoriler otomatik yüklenecek</div></div>
+    </div>
+  </div>
+
+  <div class="setup-card" style="margin-top:14px">
+    <div class="setup-label">Hızlı Kurulum</div>
+    <div style="margin-bottom:12px">
+      <div class="setup-label">Ana Klasör Adı</div>
+      <input class="setup-input" id="rootFolderName" type="text" placeholder="Tarifler" value="Tarifler">
+      <div class="setup-hint">Drive'daki ana klasörün tam adı (büyük/küçük harf önemli)</div>
+    </div>
+    <div style="margin-bottom:12px">
+      <div class="setup-label">Google Client ID</div>
+      <input class="setup-input" id="clientIdInput" type="text" placeholder="xxxx.apps.googleusercontent.com">
+      <div class="setup-hint">⚙️ <a href="#" onclick="showClientIdHelp()" style="color:var(--accent)">Client ID nasıl alınır?</a></div>
+    </div>
+    <div id="redirectUriBox" style="display:none; margin-top:12px; padding:12px; background:var(--surface); border-radius:10px; border:1px solid var(--accent)">
+      <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px">⚠️ Google Cloud'a Bu Adresi Ekle</div>
+      <div id="redirectUriText" style="font-size:11px; color:var(--text); word-break:break-all; font-family:monospace; padding:8px; background:var(--bg); border-radius:6px"></div>
+      <div style="font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5">Hem <strong>JavaScript origins</strong> hem <strong>Redirect URIs</strong> alanına ekle → Kaydet → Tekrar bağlan</div>
+      <button onclick="copyRedirectUri()" style="margin-top:10px; width:100%; padding:10px; background:transparent; border:1px solid var(--accent); color:var(--accent); border-radius:8px; cursor:pointer; font-size:13px; font-family:Nunito,sans-serif; font-weight:600">📋 Adresi Kopyala</button>
+    </div>
+    <button class="btn-primary" onclick="saveAndConnect()" style="margin-top:12px">Kaydet ve Bağlan</button>
+  </div>
+  <div class="safe-bottom"></div>
+</div>
+
+<!-- HELP SCREEN -->
+<div class="screen" id="screen-help">
+  <div class="setup-card">
+    <div class="setup-label" style="color:var(--accent)">Client ID Nasıl Alınır?</div>
+    <div style="font-size:13px; color:var(--muted); line-height:1.8">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Tarayıcında <strong style="color:var(--text)">console.cloud.google.com</strong> aç</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text"><strong style="color:var(--text)">Yeni Proje</strong> oluştur</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">API Kitaplığı → <strong style="color:var(--text)">Google Drive API</strong> → Etkinleştir</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">OAuth onay ekranı → <strong style="color:var(--text)">Harici</strong> → Oluştur</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Kimlik Bilgileri → <strong style="color:var(--text)">OAuth 2.0 İstemci Kimliği → Web Uygulaması</strong></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-text">Oluşturulan <strong style="color:var(--text)">Client ID'yi kopyala</strong> → buraya yapıştır</div></div>
+    </div>
+  </div>
+  <button class="btn-secondary" onclick="showScreen('auth')" style="width:100%">← Geri Dön</button>
+  <div class="safe-bottom"></div>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="screen-loading">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">Yükleniyor...</div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="screen" id="screen-categories">
+  <div class="section-label">Kategoriler</div>
+  <div class="categories-grid" id="categoriesGrid"></div>
+
+  <div class="ql-divider" style="margin-top:24px">
+    <div class="ql-divider-line"></div>
+    <div class="ql-divider-text">Faydalı Bağlantılar</div>
+    <div class="ql-divider-line"></div>
+  </div>
+
+  <div class="quick-links">
+    <a class="quick-link-card" href="https://www.supercook.com" target="_blank">
+      <div class="ql-icon supercook">🍳</div>
+      <div class="ql-info">
+        <div class="ql-title">Yemeğini & Tatlını Yap</div>
+        <div class="ql-desc">Elindeki malzemelere göre tarif bul — supercook.com</div>
+      </div>
+      <div class="ql-arrow">↗</div>
+    </a>
+
+    <a class="quick-link-card" href="https://turkomp.tarimorman.gov.tr/main" target="_blank">
+      <div class="ql-icon turkomp">
+        <img src="data:image/png;base64,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" alt="TürKomp">
+      </div>
+      <div class="ql-info">
+        <div class="ql-title">Ulusal Gıda Kompozisyon</div>
+        <div class="ql-desc">TürKomp — Türkiye Gıda Besin Veri Tabanı</div>
+      </div>
+      <div class="ql-arrow">↗</div>
+    </a>
+  </div>
+
+  <div class="safe-bottom"></div>
+</div>
+
+<!-- FILE LIST -->
+<div class="screen" id="screen-files">
+  <div class="file-list" id="fileList"></div>
+  <div class="safe-bottom"></div>
+</div>
+
+<!-- VIEWER -->
+<div class="screen" id="screen-viewer">
+  <div class="viewer-title" id="viewerTitle"></div>
+  <div class="viewer-meta" id="viewerMeta"></div>
+  <div class="viewer-container" id="viewerContent"></div>
+  <div class="safe-bottom"></div>
+</div>
+
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── STATE ───────────────────────────────────────────────
 const STATE = {
   accessToken: null,
   rootFolderId: null,
   clientId: null,
   rootFolderName: 'Tarifler',
-  stack: [], // navigation stack: [{name, folderId}]
+  stack: [],
   currentFolderId: null,
 };
 
-const CATEGORY_EMOJIS = {
-  'ekmek': '🍞', 'yöresel': '🫕', 'yoresel': '🫕',
-  'makarna': '🍝', 'mantı': '🥟', 'manti': '🥟',
-  'pizza': '🍕', 'tatlı': '🍰', 'tatli': '🍰',
-  'dondurma': '🍦', 'çorba': '🍲', 'corba': '🍲',
-  'salata': '🥗', 'et': '🥩', 'tavuk': '🍗',
-  'balık': '🐟', 'balik': '🐟', 'börek': '🥐', 'borek': '🥐',
+const CAT_EMOJIS = {
+  'ekmek':'🍞','yöresel':'🫕','yoresel':'🫕','makarna':'🍝','mantı':'🥟','manti':'🥟',
+  'pizza':'🍕','tatlı':'🍰','tatli':'🍰','dondurma':'🍦','çorba':'🍲','corba':'🍲',
+  'salata':'🥗','et':'🥩','tavuk':'🍗','balık':'🐟','balik':'🐟','börek':'🥐','borek':'🥐',
+  'yemek':'🍜','sebze':'🥦','meyve':'🍎','kahvaltı':'🍳','kahvalti':'🍳','içecek':'🧃',
+  'icecek':'🧃','pilav':'🍚','çay':'☕','kek':'🎂','kurabiye':'🍪',
 };
 
 function getCatEmoji(name) {
-  const lower = name.toLowerCase();
-  for (const [key, emoji] of Object.entries(CATEGORY_EMOJIS)) {
-    if (lower.includes(key)) return emoji;
-  }
+  const l = name.toLowerCase();
+  for (const [k,v] of Object.entries(CAT_EMOJIS)) { if (l.includes(k)) return v; }
   return '📁';
 }
 
-function getFileIcon(name, mimeType) {
-  if (mimeType === 'application/vnd.google-apps.folder') return { icon: '📂', cls: 'folder' };
+function getFileIcon(name, mime) {
+  if (mime === 'application/vnd.google-apps.folder') return {icon:'📂',cls:'folder'};
   const ext = name.split('.').pop().toLowerCase();
-  if (['mp4','mov','avi','mkv','webm'].includes(ext) || mimeType?.includes('video')) return { icon: '🎬', cls: 'video' };
-  if (['jpg','jpeg','png','gif','webp'].includes(ext) || mimeType?.includes('image')) return { icon: '🖼', cls: 'image' };
-  if (ext === 'pdf' || mimeType?.includes('pdf')) return { icon: '📄', cls: 'pdf' };
-  if (['txt','md'].includes(ext) || mimeType?.includes('text')) return { icon: '📝', cls: 'text' };
-  return { icon: '📎', cls: 'text' };
+  if (['mp4','mov','avi','mkv','webm'].includes(ext) || mime?.includes('video')) return {icon:'🎬',cls:'video'};
+  if (['jpg','jpeg','png','gif','webp'].includes(ext) || mime?.includes('image')) return {icon:'🖼',cls:'image'};
+  if (ext==='pdf' || mime?.includes('pdf')) return {icon:'📄',cls:'pdf'};
+  if (['txt','md'].includes(ext) || mime?.includes('text')) return {icon:'📝',cls:'text'};
+  return {icon:'📎',cls:'text'};
 }
 
-// ─── STORAGE ─────────────────────────────────────────────
-function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
-function load(key) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch(e){ return null; } }
+function save(k,v) { try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
+function load(k) { try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;} }
 
-// ─── SCREENS ─────────────────────────────────────────────
-function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
+function showScreen(n) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
 }
 
-// ─── TOAST ───────────────────────────────────────────────
-function showToast(msg, duration = 2500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration);
+function showToast(msg,dur=2500) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
 }
 
-// ─── BACK / BREADCRUMB ───────────────────────────────────
 function updateHeader() {
-  const btn = document.getElementById('backBtn');
-  const bc = document.getElementById('breadcrumb');
-  if (STATE.stack.length > 0) {
+  const btn=document.getElementById('backBtn');
+  const bc=document.getElementById('breadcrumb');
+  if (STATE.stack.length>0) {
     btn.classList.add('visible');
-    bc.textContent = STATE.stack.map(s => s.name).join(' › ');
+    bc.textContent=STATE.stack.map(s=>s.name).join(' › ');
   } else {
     btn.classList.remove('visible');
-    bc.textContent = 'Ana Menü';
+    bc.textContent='Ana Menü';
   }
 }
 
 function goBack() {
   STATE.stack.pop();
   updateHeader();
-  if (STATE.stack.length === 0) {
-    loadCategories();
-  } else {
-    const parent = STATE.stack[STATE.stack.length - 1];
-    STATE.currentFolderId = parent.folderId;
-    loadFiles(parent.folderId, parent.name, true);
+  if (STATE.stack.length===0) { loadCategories(); }
+  else {
+    const p=STATE.stack[STATE.stack.length-1];
+    STATE.currentFolderId=p.folderId;
+    loadFiles(p.folderId,p.name,true);
   }
 }
 
-// ─── AUTH ─────────────────────────────────────────────────
 function showClientIdHelp() { showScreen('help'); }
 
 function copyRedirectUri() {
-  const uri = getRedirectUri();
-  navigator.clipboard.writeText(uri).then(() => showToast('✅ Kopyalandı!')).catch(() => showToast(uri));
+  const uri=getRedirectUri();
+  navigator.clipboard.writeText(uri).then(()=>showToast('✅ Kopyalandı!')).catch(()=>showToast(uri));
 }
 
 function showRedirectUriBox() {
-  const box = document.getElementById('redirectUriBox');
-  const txt = document.getElementById('redirectUriText');
-  if (box && txt) {
-    txt.textContent = getRedirectUri();
-    box.style.display = 'block';
-  }
+  const box=document.getElementById('redirectUriBox');
+  const txt=document.getElementById('redirectUriText');
+  if(box&&txt){ txt.textContent=getRedirectUri(); box.style.display='block'; }
 }
 
 function saveAndConnect() {
-  const clientId = document.getElementById('clientIdInput').value.trim();
-  const folderName = document.getElementById('rootFolderName').value.trim() || 'Tarifler';
-  if (!clientId) { showToast('⚠️ Client ID gerekli'); return; }
-  STATE.clientId = clientId;
-  STATE.rootFolderName = folderName;
-  save('clientId', clientId);
-  save('rootFolderName', folderName);
-  // Show redirect URI box so user can add it to Google Cloud
+  const clientId=document.getElementById('clientIdInput').value.trim();
+  const folderName=document.getElementById('rootFolderName').value.trim()||'Tarifler';
+  if(!clientId){showToast('⚠️ Client ID gerekli');return;}
+  STATE.clientId=clientId; STATE.rootFolderName=folderName;
+  save('clientId',clientId); save('rootFolderName',folderName);
   showRedirectUriBox();
   startOAuth();
 }
 
 function startOAuth() {
-  const clientId = STATE.clientId || load('clientId');
-  if (!clientId) { showToast('⚠️ Önce Client ID gir'); return; }
-  STATE.clientId = clientId;
-
-  // Redirect URI: mevcut sayfanın tam adresi
-  const redirectUri = window.location.href.split('#')[0].split('?')[0];
-  save('redirectUri', redirectUri);
-
-  const params = new URLSearchParams({
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    response_type: 'token',
-    scope: 'https://www.googleapis.com/auth/drive.readonly',
-    include_granted_scopes: 'true',
-    prompt: 'select_account',
+  const clientId=STATE.clientId||load('clientId');
+  if(!clientId){showToast('⚠️ Önce Client ID gir');return;}
+  STATE.clientId=clientId;
+  const redirectUri=getRedirectUri();
+  save('redirectUri',redirectUri);
+  const params=new URLSearchParams({
+    client_id:clientId, redirect_uri:redirectUri,
+    response_type:'token', scope:'https://www.googleapis.com/auth/drive.readonly',
+    include_granted_scopes:'true', prompt:'select_account',
   });
-
-  // Direkt yönlendir (popup değil)
-  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+  window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
 }
 
 function getRedirectUri() {
@@ -763,331 +691,224 @@ function getRedirectUri() {
 }
 
 function handleOAuthCallback() {
-  const hash = window.location.hash.substring(1);
-  const params = new URLSearchParams(hash);
-  const token = params.get('access_token');
-  if (token) {
-    STATE.accessToken = token;
-    save('accessToken', token);
-    save('tokenTime', Date.now());
-    window.history.replaceState({}, '', window.location.pathname);
-    updateDriveBtn(true);
-    showToast('✅ Drive bağlandı!');
-    initApp();
+  const hash=window.location.hash.substring(1);
+  const params=new URLSearchParams(hash);
+  const token=params.get('access_token');
+  if(token){
+    STATE.accessToken=token; save('accessToken',token); save('tokenTime',Date.now());
+    window.history.replaceState({},'',window.location.pathname);
+    updateDriveBtn(true); showToast('✅ Drive bağlandı!'); initApp();
   }
 }
 
 function handleDriveBtn() {
-  if (STATE.accessToken) {
-    STATE.accessToken = null;
-    save('accessToken', null);
-    updateDriveBtn(false);
-    showScreen('auth');
-    showToast('Çıkış yapıldı');
-  } else {
-    showScreen('auth');
-  }
+  if(STATE.accessToken){
+    STATE.accessToken=null; save('accessToken',null);
+    updateDriveBtn(false); showScreen('auth'); showToast('Çıkış yapıldı');
+  } else { showScreen('auth'); }
 }
 
 function updateDriveBtn(connected) {
-  const btn = document.getElementById('driveBtn');
-  const txt = document.getElementById('driveBtnText');
-  if (connected) {
-    btn.classList.add('connected');
-    txt.textContent = 'Bağlı ✓';
-  } else {
-    btn.classList.remove('connected');
-    txt.textContent = 'Drive';
-  }
+  const btn=document.getElementById('driveBtn');
+  const txt=document.getElementById('driveBtnText');
+  if(connected){ btn.classList.add('connected'); txt.textContent='Bağlı ✓'; }
+  else { btn.classList.remove('connected'); txt.textContent='Drive'; }
 }
 
-// ─── DRIVE API ───────────────────────────────────────────
 async function driveRequest(endpoint) {
-  const res = await fetch('https://www.googleapis.com/drive/v3/' + endpoint, {
-    headers: { Authorization: 'Bearer ' + STATE.accessToken }
+  const res=await fetch('https://www.googleapis.com/drive/v3/'+endpoint,{
+    headers:{Authorization:'Bearer '+STATE.accessToken}
   });
-  if (!res.ok) {
-    if (res.status === 401) {
-      STATE.accessToken = null;
-      showScreen('auth');
-      showToast('⚠️ Oturum süresi doldu, tekrar giriş yap');
-      return null;
-    }
-    throw new Error('Drive API hatası: ' + res.status);
+  if(!res.ok){
+    if(res.status===401){ STATE.accessToken=null; showScreen('auth'); showToast('⚠️ Oturum doldu, tekrar giriş yap'); return null; }
+    throw new Error('Drive API hatası: '+res.status);
   }
   return res.json();
 }
 
-async function findFolder(name, parentId = null) {
-  let q = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
-  if (parentId) q += ` and '${parentId}' in parents`;
-  const data = await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name)`);
-  return data?.files?.[0] || null;
+async function findFolder(name,parentId=null) {
+  let q=`name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+  if(parentId) q+=` and '${parentId}' in parents`;
+  const data=await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name)`);
+  return data?.files?.[0]||null;
 }
 
 async function listFolder(folderId) {
-  const q = `'${folderId}' in parents and trashed=false`;
-  const data = await driveRequest(
-    `files?q=${encodeURIComponent(q)}&fields=files(id,name,mimeType,size,modifiedTime)&orderBy=name`
-  );
-  return data?.files || [];
+  const q=`'${folderId}' in parents and trashed=false`;
+  const data=await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name,mimeType,size,modifiedTime)&orderBy=name`);
+  return data?.files||[];
 }
 
-// ─── APP INIT ────────────────────────────────────────────
 async function initApp() {
   showScreen('loading');
-  document.getElementById('loadingText').textContent = 'Tarifler klasörü aranıyor...';
-
+  document.getElementById('loadingText').textContent='Tarifler klasörü aranıyor...';
   try {
-    const folderName = STATE.rootFolderName || load('rootFolderName') || 'Tarifler';
-    const folder = await findFolder(folderName);
-    if (!folder) {
-      showMsg('Klasör Bulunamadı', `Drive'da "${folderName}" adında bir klasör bulunamadı. Klasör adını kontrol et.`);
-      return;
-    }
-    STATE.rootFolderId = folder.id;
-    STATE.stack = [];
-    updateHeader();
+    const folderName=STATE.rootFolderName||load('rootFolderName')||'Tarifler';
+    const folder=await findFolder(folderName);
+    if(!folder){ showMsg('Klasör Bulunamadı',`Drive'da "${folderName}" klasörü bulunamadı.`); return; }
+    STATE.rootFolderId=folder.id; STATE.stack=[]; updateHeader();
     await loadCategories();
-  } catch(e) {
-    showMsg('Hata Oluştu', e.message);
-  }
+  } catch(e){ showMsg('Hata',e.message); }
 }
 
 async function loadCategories() {
   showScreen('loading');
-  document.getElementById('loadingText').textContent = 'Kategoriler yükleniyor...';
-
+  document.getElementById('loadingText').textContent='Kategoriler yükleniyor...';
   try {
-    const items = await listFolder(STATE.rootFolderId);
-    if (!items) return;
-
-    const grid = document.getElementById('categoriesGrid');
-    grid.innerHTML = '';
-
-    if (items.length === 0) {
-      grid.innerHTML = '<div class="msg-box" style="grid-column:1/-1"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div><div class="msg-desc">Tarifler klasörünün içinde alt klasör bulunamadı.</div></div>';
-      showScreen('categories');
-      return;
+    const items=await listFolder(STATE.rootFolderId);
+    if(!items) return;
+    const grid=document.getElementById('categoriesGrid');
+    grid.innerHTML='';
+    if(items.length===0){
+      grid.innerHTML='<div class="msg-box" style="grid-column:1/-1"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';
+      showScreen('categories'); return;
     }
-
-    items.forEach(item => {
-      const isFolder = item.mimeType === 'application/vnd.google-apps.folder';
-      const emoji = isFolder ? getCatEmoji(item.name) : getFileIcon(item.name, item.mimeType).icon;
-      const card = document.createElement('div');
-      card.className = 'cat-card';
-      card.innerHTML = `
+    // A>Z sırala
+    items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));
+    items.forEach(item=>{
+      const isFolder=item.mimeType==='application/vnd.google-apps.folder';
+      const emoji=isFolder?getCatEmoji(item.name):getFileIcon(item.name,item.mimeType).icon;
+      const card=document.createElement('div');
+      card.className='cat-card';
+      card.innerHTML=`
         <div>
-          <div class="cat-emoji">${emoji}</div>
+          <span class="cat-emoji">${emoji}</span>
           <div class="cat-name">${item.name}</div>
-          <div class="cat-count">${isFolder ? 'Klasör' : 'Dosya'}</div>
+          <div class="cat-count">${isFolder?'Klasör':'Dosya'}</div>
         </div>
-        <div class="cat-arrow">›</div>
-      `;
-      card.addEventListener('click', () => {
-        if (isFolder) {
-          STATE.stack = [{ name: item.name, folderId: item.id }];
-          updateHeader();
-          loadFiles(item.id, item.name);
-        } else {
-          STATE.stack = [];
-          openFile(item);
-        }
+        <div class="cat-arrow">›</div>`;
+      card.addEventListener('click',()=>{
+        if(isFolder){ STATE.stack=[{name:item.name,folderId:item.id}]; updateHeader(); loadFiles(item.id,item.name); }
+        else { STATE.stack=[]; openFile(item); }
       });
       grid.appendChild(card);
     });
-
     showScreen('categories');
-  } catch(e) {
-    showMsg('Hata', e.message);
-  }
+  } catch(e){ showMsg('Hata',e.message); }
 }
 
-async function loadFiles(folderId, folderName, isBack = false) {
+async function loadFiles(folderId,folderName,isBack=false) {
   showScreen('loading');
-  document.getElementById('loadingText').textContent = `"${folderName}" yükleniyor...`;
-  STATE.currentFolderId = folderId;
-
+  document.getElementById('loadingText').textContent=`"${folderName}" yükleniyor...`;
+  STATE.currentFolderId=folderId;
   try {
-    const items = await listFolder(folderId);
-    if (!items) return;
-
-    const list = document.getElementById('fileList');
-    list.innerHTML = '';
-
-    if (items.length === 0) {
-      list.innerHTML = '<div class="msg-box"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div><div class="msg-desc">Bu klasörde henüz dosya yok.</div></div>';
-      showScreen('files');
-      return;
+    const items=await listFolder(folderId);
+    if(!items) return;
+    const list=document.getElementById('fileList');
+    list.innerHTML='';
+    if(items.length===0){
+      list.innerHTML='<div class="msg-box"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';
+      showScreen('files'); return;
     }
-
-    items.forEach(item => {
-      const isFolder = item.mimeType === 'application/vnd.google-apps.folder';
-      const { icon, cls } = getFileIcon(item.name, item.mimeType);
-      const displayIcon = isFolder ? '📂' : icon;
-      const displayCls = isFolder ? 'folder' : cls;
-
-      const div = document.createElement('div');
-      div.className = 'file-item';
-      div.innerHTML = `
-        <div class="file-icon-wrap ${displayCls}">${displayIcon}</div>
+    // A>Z sırala
+    items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));
+    items.forEach(item=>{
+      const isFolder=item.mimeType==='application/vnd.google-apps.folder';
+      const {icon,cls}=getFileIcon(item.name,item.mimeType);
+      const dIcon=isFolder?'📂':icon; const dCls=isFolder?'folder':cls;
+      const div=document.createElement('div');
+      div.className='file-item';
+      div.innerHTML=`
+        <div class="file-icon-wrap ${dCls}">${dIcon}</div>
         <div class="file-info">
           <div class="file-name">${item.name}</div>
-          <div class="file-meta">${isFolder ? 'Klasör' : formatSize(item.size)}</div>
+          <div class="file-meta">${isFolder?'Klasör':formatSize(item.size)}</div>
         </div>
-        <div class="file-chevron">›</div>
-      `;
-      div.addEventListener('click', () => {
-        if (isFolder) {
-          STATE.stack.push({ name: item.name, folderId: item.id });
-          updateHeader();
-          loadFiles(item.id, item.name);
-        } else {
-          openFile(item);
-        }
+        <div class="file-chevron">›</div>`;
+      div.addEventListener('click',()=>{
+        if(isFolder){ STATE.stack.push({name:item.name,folderId:item.id}); updateHeader(); loadFiles(item.id,item.name); }
+        else { openFile(item); }
       });
       list.appendChild(div);
     });
-
     showScreen('files');
-  } catch(e) {
-    showMsg('Hata', e.message);
-  }
+  } catch(e){ showMsg('Hata',e.message); }
 }
 
 function formatSize(bytes) {
-  if (!bytes) return '';
-  const b = parseInt(bytes);
-  if (b > 1e9) return (b/1e9).toFixed(1) + ' GB';
-  if (b > 1e6) return (b/1e6).toFixed(1) + ' MB';
-  if (b > 1e3) return (b/1e3).toFixed(0) + ' KB';
-  return b + ' B';
+  if(!bytes) return '';
+  const b=parseInt(bytes);
+  if(b>1e9) return (b/1e9).toFixed(1)+' GB';
+  if(b>1e6) return (b/1e6).toFixed(1)+' MB';
+  if(b>1e3) return (b/1e3).toFixed(0)+' KB';
+  return b+' B';
 }
 
-// ─── FILE VIEWER ─────────────────────────────────────────
 async function openFile(item) {
-  const { icon } = getFileIcon(item.name, item.mimeType);
-  document.getElementById('viewerTitle').textContent = item.name;
-  document.getElementById('viewerMeta').textContent = formatSize(item.size) || item.mimeType || '';
-
-  const content = document.getElementById('viewerContent');
-  content.innerHTML = '<div class="loading"><div class="spinner"></div><div class="loading-text">Açılıyor...</div></div>';
+  document.getElementById('viewerTitle').textContent=item.name;
+  document.getElementById('viewerMeta').textContent=formatSize(item.size)||'';
+  const content=document.getElementById('viewerContent');
+  content.innerHTML='<div class="loading"><div class="spinner"></div><div class="loading-text">Açılıyor...</div></div>';
   showScreen('viewer');
-  STATE.stack.push({ name: item.name, folderId: null, fileItem: item });
+  STATE.stack.push({name:item.name,folderId:null});
   updateHeader();
+  const ext=item.name.split('.').pop().toLowerCase();
+  const fileUrl=`https://www.googleapis.com/drive/v3/files/${item.id}?alt=media`;
 
-  const ext = item.name.split('.').pop().toLowerCase();
-  const fileUrl = `https://www.googleapis.com/drive/v3/files/${item.id}?alt=media`;
-
-  // VIDEO
-  if (['mp4','mov','webm','avi'].includes(ext) || item.mimeType?.includes('video')) {
-    content.innerHTML = `
-      <video class="viewer-video" controls preload="metadata"
-        src="${fileUrl}#Authorization=Bearer ${STATE.accessToken}">
-      </video>`;
-    // Fetch with auth header for video
-    const video = content.querySelector('video');
+  if(['mp4','mov','webm','avi'].includes(ext)||item.mimeType?.includes('video')){
+    const video=document.createElement('video');
+    video.className='viewer-video'; video.controls=true; video.preload='metadata';
+    content.innerHTML=''; content.appendChild(video);
     try {
-      const resp = await fetch(fileUrl, { headers: { Authorization: 'Bearer ' + STATE.accessToken } });
-      const blob = await resp.blob();
-      video.src = URL.createObjectURL(blob);
+      const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
+      video.src=URL.createObjectURL(await resp.blob());
     } catch(e) {
-      // fallback: open in Drive
-      content.innerHTML = `<div class="viewer-text">Video oynatılamadı. <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent)">Drive'da Aç ↗</a></div>`;
+      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:12px">🎬</div><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent);font-weight:700">Drive'da Aç ↗</a></div>`;
     }
     return;
   }
 
-  // IMAGE
-  if (['jpg','jpeg','png','gif','webp'].includes(ext) || item.mimeType?.includes('image')) {
+  if(['jpg','jpeg','png','gif','webp'].includes(ext)||item.mimeType?.includes('image')){
     try {
-      const resp = await fetch(fileUrl, { headers: { Authorization: 'Bearer ' + STATE.accessToken } });
-      const blob = await resp.blob();
-      const url = URL.createObjectURL(blob);
-      content.innerHTML = `<img class="viewer-image" src="${url}" alt="${item.name}">`;
+      const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
+      content.innerHTML=`<img class="viewer-image" src="${URL.createObjectURL(await resp.blob())}" alt="${item.name}">`;
     } catch(e) {
-      content.innerHTML = `<div class="viewer-text">Fotoğraf açılamadı. <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent)">Drive'da Aç ↗</a></div>`;
+      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent)">Drive'da Aç ↗</a></div>`;
     }
     return;
   }
 
-  // PDF
-  if (ext === 'pdf' || item.mimeType?.includes('pdf')) {
-    content.innerHTML = `<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview"></iframe>`;
+  if(ext==='pdf'||item.mimeType?.includes('pdf')){
+    content.innerHTML=`<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview"></iframe>`;
     return;
   }
 
-  // TEXT
-  if (['txt','md','text'].includes(ext) || item.mimeType?.includes('text')) {
+  if(['txt','md'].includes(ext)||item.mimeType?.includes('text')){
     try {
-      const resp = await fetch(fileUrl, { headers: { Authorization: 'Bearer ' + STATE.accessToken } });
-      const text = await resp.text();
-      content.innerHTML = `<div class="viewer-text">${escapeHtml(text)}</div>`;
-    } catch(e) {
-      content.innerHTML = `<div class="viewer-text">Metin açılamadı.</div>`;
-    }
+      const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
+      const text=await resp.text();
+      content.innerHTML=`<div class="viewer-text">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`;
+    } catch(e) { content.innerHTML='<div class="viewer-text">Metin açılamadı.</div>'; }
     return;
   }
 
-  // FALLBACK
-  content.innerHTML = `
-    <div class="viewer-text" style="text-align:center; padding: 40px 20px">
-      <div style="font-size:48px; margin-bottom:16px">📎</div>
-      <div style="margin-bottom:16px">Bu dosya türü önizlenemiyor.</div>
-      <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" 
-         style="color:var(--accent); font-weight:600">Drive'da Aç ↗</a>
-    </div>`;
+  // DOC / diğer → Drive'da aç
+  content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:50px 20px">
+    <div style="font-size:52px;margin-bottom:16px">📄</div>
+    <div style="margin-bottom:20px;color:var(--muted)">Bu dosya Drive'da açılacak</div>
+    <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank"
+       style="background:linear-gradient(135deg,#e8a043,#c45c1a);color:#fff;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:700;font-size:15px">
+      Drive'da Aç ↗
+    </a></div>`;
 }
 
-function escapeHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function showMsg(title, desc) {
-  const list = document.getElementById('fileList');
-  list.innerHTML = `
-    <div class="msg-box">
-      <div class="msg-icon">⚠️</div>
-      <div class="msg-title">${title}</div>
-      <div class="msg-desc">${desc}</div>
-      <button class="btn-secondary" onclick="showScreen('auth')">Ayarlara Dön</button>
-    </div>`;
+function showMsg(title,desc) {
+  const list=document.getElementById('fileList');
+  list.innerHTML=`<div class="msg-box"><div class="msg-icon">⚠️</div><div class="msg-title">${title}</div><div class="msg-desc">${desc}</div><button class="btn-secondary" onclick="showScreen('auth')">Ayarlara Dön</button></div>`;
   showScreen('files');
 }
 
-// ─── BOOT ────────────────────────────────────────────────
-window.addEventListener('load', () => {
-  // Check OAuth callback
-  if (window.location.hash.includes('access_token')) {
-    handleOAuthCallback();
-    return;
-  }
-
-  // Restore saved config
-  const savedClientId = load('clientId');
-  const savedToken = load('accessToken');
-  const savedFolder = load('rootFolderName');
-  const savedTime = load('tokenTime');
-
-  if (savedClientId) {
-    STATE.clientId = savedClientId;
-    document.getElementById('clientIdInput').value = savedClientId;
-  }
-  if (savedFolder) {
-    STATE.rootFolderName = savedFolder;
-    document.getElementById('rootFolderName').value = savedFolder;
-  }
-
-  // Token expires in ~1 hour
-  const tokenValid = savedToken && savedTime && (Date.now() - savedTime < 3500000);
-
-  if (tokenValid) {
-    STATE.accessToken = savedToken;
-    updateDriveBtn(true);
-    initApp();
-  } else {
-    showScreen('auth');
-  }
+window.addEventListener('load',()=>{
+  if(window.location.hash.includes('access_token')){ handleOAuthCallback(); return; }
+  const savedClientId=load('clientId');
+  const savedToken=load('accessToken');
+  const savedFolder=load('rootFolderName');
+  const savedTime=load('tokenTime');
+  if(savedClientId){ STATE.clientId=savedClientId; document.getElementById('clientIdInput').value=savedClientId; }
+  if(savedFolder){ STATE.rootFolderName=savedFolder; document.getElementById('rootFolderName').value=savedFolder; }
+  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<3500000);
+  if(tokenValid){ STATE.accessToken=savedToken; updateDriveBtn(true); initApp(); }
+  else { showScreen('auth'); }
 });
 </script>
 </body>
