@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#1a0a00">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Tariflerim</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0800;
+    --surface: #1c1005;
+    --card: #251608;
+    --accent: #e8a043;
+    --accent2: #c45c1a;
+    --text: #f5e6cc;
+    --muted: #8a6a45;
+    --border: #3a2210;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(232,160,67,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(196,92,26,0.07) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #app { position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(180deg, #1c1005 0%, transparent 100%);
+    padding: 20px 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .back-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:active { transform: scale(0.9); }
+  .back-btn.visible { display: flex; }
+
+  .title-block { flex: 1; }
+
+  .app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .drive-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .drive-btn:active { transform: scale(0.95); }
+  .drive-btn.connected { color: #4caf7d; border-color: #4caf7d44; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin-top: 16px;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── AUTH SCREEN ── */
+  .auth-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .auth-icon { font-size: 56px; margin-bottom: 16px; }
+
+  .auth-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .auth-desc {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s;
+    font-family: 'Nunito', sans-serif;
+  }
+  .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+
+  .setup-steps {
+    margin-top: 24px;
+    text-align: left;
+  }
+
+  .step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    background: var(--accent);
+    color: #000;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .step-text strong { color: var(--text); }
+
+  /* ── SETUP SCREEN ── */
+  .setup-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .setup-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .setup-input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-size: 14px;
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .setup-input:focus { border-color: var(--accent); }
+  .setup-input::placeholder { color: var(--muted); }
+
+  .setup-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* ── CATEGORIES ── */
+  .section-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+    padding-left: 4px;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .cat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,160,67,0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .cat-card:active::before { opacity: 1; }
+  .cat-card:active { transform: scale(0.97); border-color: var(--accent); }
+
+  .cat-emoji { font-size: 32px; margin-bottom: 8px; }
+
+  .cat-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .cat-count {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .cat-arrow {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    color: var(--accent);
+    font-size: 16px;
+    opacity: 0.6;
+  }
+
+  /* ── FILE LIST ── */
+  .file-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .file-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .file-item:active { transform: scale(0.98); border-color: var(--accent); }
+
+  .file-icon-wrap {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .file-icon-wrap.video { background: rgba(196,92,26,0.2); }
+  .file-icon-wrap.image { background: rgba(76,175,125,0.2); }
+  .file-icon-wrap.pdf { background: rgba(239,83,80,0.2); }
+  .file-icon-wrap.text { background: rgba(100,149,237,0.2); }
+  .file-icon-wrap.folder { background: rgba(232,160,67,0.2); }
+
+  .file-info { flex: 1; min-width: 0; }
+
+  .file-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  .file-chevron { color: var(--muted); font-size: 16px; flex-shrink: 0; }
+
+  /* ── VIEWER ── */
+  .viewer-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .viewer-video {
+    width: 100%;
+    max-height: 55vw;
+    background: #000;
+    display: block;
+  }
+
+  .viewer-image {
+    width: 100%;
+    display: block;
+    border-radius: var(--radius);
+  }
+
+  .viewer-pdf {
+    width: 100%;
+    height: 70vh;
+    border: none;
+    display: block;
+  }
+
+  .viewer-text {
+    padding: 20px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .viewer-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .viewer-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── LOADING ── */
+  .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 16px;
+  }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text { color: var(--muted); font-size: 14px; }
+
+  /* ── ERROR / EMPTY ── */
+  .msg-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 20px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .msg-icon { font-size: 40px; margin-bottom: 12px; }
+  .msg-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .msg-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 16px;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-secondary:active { background: var(--accent); color: #000; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--accent);
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.3s;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── BOTTOM SAFE AREA ── */
+  .safe-bottom { height: 30px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <button class="back-btn" id="backBtn" onclick="goBack()">‹</button>
+      <div class="title-block">
+        <div class="app-title">🍽 Tariflerim</div>
+        <div class="breadcrumb" id="breadcrumb">Ana Menü</div>
+      </div>
+      <button class="drive-btn" id="driveBtn" onclick="handleDriveBtn()">
+        <span>▲</span> <span id="driveBtnText">Drive</span>
+      </button>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- AUTH SCREEN -->
+  <div class="screen active" id="screen-auth">
+    <div class="auth-card">
+      <div class="auth-icon">🔑</div>
+      <div class="auth-title">Google Drive'a Bağlan</div>
+      <div class="auth-desc">
+        Tariflerini Drive'dan okumak için bir kez Google hesabınla giriş yapman yeterli. Dosyalar telefonunda yer kaplamaz.
+      </div>
+      <button class="btn-primary" onclick="startOAuth()">
+        Google ile Giriş Yap
+      </button>
+      <div class="setup-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Google hesabını seç</strong> — açılan pencerede Drive erişimine izin ver</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Ana klasör adını gir</strong> — Drive'daki "Tarifler" klasörünün adı ne?</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Hazır!</strong> Tüm kategoriler ve tarifler otomatik yüklenecek</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-card" style="margin-top:16px">
+      <div class="setup-label">Hızlı Kurulum</div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:16px; line-height:1.6">
+        Google ile giriş yapmadan önce, Drive'daki ana klasörünün adını gir:
+      </p>
+      <div style="margin-bottom:12px">
+        <div class="setup-label">Ana Klasör Adı</div>
+        <input class="setup-input" id="rootFolderName" type="text" placeholder="Tarifler" value="Tarifler">
+        <div class="setup-hint">Drive'da en üstteki klasörün tam adı (büyük/küçük harf önemli)</div>
+      </div>
+      <div style="margin-bottom:12px">
+        <div class="setup-label">Google Client ID</div>
+        <input class="setup-input" id="clientIdInput" type="text" placeholder="xxxx.apps.googleusercontent.com">
+        <div class="setup-hint">
+          ⚙️ <a href="#" onclick="showClientIdHelp()" style="color:var(--accent)">Client ID nasıl alınır?</a> — 5 dakika, ücretsiz
+        </div>
+      </div>
+      <div id="redirectUriBox" style="display:none; margin-top:12px; padding:12px; background:var(--surface); border-radius:10px; border:1px solid var(--accent)">
+        <div style="font-size:11px; color:var(--accent); font-weight:700; margin-bottom:6px">⚠️ Google Cloud'a Bu Adresi Ekle</div>
+        <div id="redirectUriText" style="font-size:11px; color:var(--text); word-break:break-all; font-family:monospace; padding:8px; background:var(--bg); border-radius:6px"></div>
+        <div style="font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5">Bunu hem <strong>Authorized JavaScript origins</strong> hem de <strong>Authorized redirect URIs</strong> alanına ekle → Kaydet → Tekrar Baglan a bas</div>
+        <button onclick="copyRedirectUri()" style="margin-top:10px; width:100%; padding:10px; background:transparent; border:1px solid var(--accent); color:var(--accent); border-radius:8px; cursor:pointer; font-size:13px; font-family:Nunito,sans-serif">Adresi Kopyala</button>
+      </div>
+      <button class="btn-primary" onclick="saveAndConnect()" style="margin-top:8px">
+        Kaydet ve Bağlan
+      </button>
+    </div>
+    <div class="safe-bottom"></div>
+  </div>
+
+  <!-- CLIENT ID HELP -->
+  <div class="screen" id="screen-help">
+    <div class="setup-card">
+      <div class="setup-label" style="color:var(--accent)">Client ID Nasıl Alınır?</div>
+      <div style="font-size:13px; color:var(--muted); line-height:1.8">
+        <p style="margin-bottom:12px">Bu uygulama Drive'ına erişmek için Google'ın ücretsiz API'sini kullanır. Bir kez kurulur, bir daha dokunmazsın.</p>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Tarayıcında <strong style="color:var(--text)">console.cloud.google.com</strong> aç</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong style="color:var(--text)">Yeni Proje</strong> oluştur → istediğin ismi ver</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Sol menü → <strong style="color:var(--text)">API ve Hizmetler → Kitaplık</strong> → "Google Drive API" ara → Etkinleştir</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong style="color:var(--text)">Kimlik Bilgileri → Kimlik Bilgisi Oluştur → OAuth 2.0 İstemci Kimliği</strong></div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-text">Uygulama türü: <strong style="color:var(--text)">Web Uygulaması</strong> → Yetkili JavaScript kaynağı: bu sayfanın URL'ini ekle</div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-text">Oluşturulan <strong style="color:var(--text)">Client ID'yi kopyala</strong> → uygulamaya yapıştır</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-secondary" onclick="showScreen('auth')" style="width:100%">← Geri Dön</button>
+    <div class="safe-bottom"></div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="screen" id="screen-loading">
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loadingText">Yükleniyor...</div>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="screen" id="screen-categories">
+    <div class="section-label">Kategoriler</div>
+    <div class="categories-grid" id="categoriesGrid"></div>
+    <div class="safe-bottom"></div>
+  </div>
+
+  <!-- FILE LIST -->
+  <div class="screen" id="screen-files">
+    <div class="file-list" id="fileList"></div>
+    <div class="safe-bottom"></div>
+  </div>
+
+  <!-- VIEWER -->
+  <div class="screen" id="screen-viewer">
+    <div class="viewer-title" id="viewerTitle"></div>
+    <div class="viewer-meta" id="viewerMeta"></div>
+    <div class="viewer-container" id="viewerContent"></div>
+    <div class="safe-bottom"></div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────
+const STATE = {
+  accessToken: null,
+  rootFolderId: null,
+  clientId: null,
+  rootFolderName: 'Tarifler',
+  stack: [], // navigation stack: [{name, folderId}]
+  currentFolderId: null,
+};
+
+const CATEGORY_EMOJIS = {
+  'ekmek': '🍞', 'yöresel': '🫕', 'yoresel': '🫕',
+  'makarna': '🍝', 'mantı': '🥟', 'manti': '🥟',
+  'pizza': '🍕', 'tatlı': '🍰', 'tatli': '🍰',
+  'dondurma': '🍦', 'çorba': '🍲', 'corba': '🍲',
+  'salata': '🥗', 'et': '🥩', 'tavuk': '🍗',
+  'balık': '🐟', 'balik': '🐟', 'börek': '🥐', 'borek': '🥐',
+};
+
+function getCatEmoji(name) {
+  const lower = name.toLowerCase();
+  for (const [key, emoji] of Object.entries(CATEGORY_EMOJIS)) {
+    if (lower.includes(key)) return emoji;
+  }
+  return '📁';
+}
+
+function getFileIcon(name, mimeType) {
+  if (mimeType === 'application/vnd.google-apps.folder') return { icon: '📂', cls: 'folder' };
+  const ext = name.split('.').pop().toLowerCase();
+  if (['mp4','mov','avi','mkv','webm'].includes(ext) || mimeType?.includes('video')) return { icon: '🎬', cls: 'video' };
+  if (['jpg','jpeg','png','gif','webp'].includes(ext) || mimeType?.includes('image')) return { icon: '🖼', cls: 'image' };
+  if (ext === 'pdf' || mimeType?.includes('pdf')) return { icon: '📄', cls: 'pdf' };
+  if (['txt','md'].includes(ext) || mimeType?.includes('text')) return { icon: '📝', cls: 'text' };
+  return { icon: '📎', cls: 'text' };
+}
+
+// ─── STORAGE ─────────────────────────────────────────────
+function save(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){} }
+function load(key) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : null; } catch(e){ return null; } }
+
+// ─── SCREENS ─────────────────────────────────────────────
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+}
+
+// ─── TOAST ───────────────────────────────────────────────
+function showToast(msg, duration = 2500) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ─── BACK / BREADCRUMB ───────────────────────────────────
+function updateHeader() {
+  const btn = document.getElementById('backBtn');
+  const bc = document.getElementById('breadcrumb');
+  if (STATE.stack.length > 0) {
+    btn.classList.add('visible');
+    bc.textContent = STATE.stack.map(s => s.name).join(' › ');
+  } else {
+    btn.classList.remove('visible');
+    bc.textContent = 'Ana Menü';
+  }
+}
+
+function goBack() {
+  STATE.stack.pop();
+  updateHeader();
+  if (STATE.stack.length === 0) {
+    loadCategories();
+  } else {
+    const parent = STATE.stack[STATE.stack.length - 1];
+    STATE.currentFolderId = parent.folderId;
+    loadFiles(parent.folderId, parent.name, true);
+  }
+}
+
+// ─── AUTH ─────────────────────────────────────────────────
+function showClientIdHelp() { showScreen('help'); }
+
+function copyRedirectUri() {
+  const uri = getRedirectUri();
+  navigator.clipboard.writeText(uri).then(() => showToast('✅ Kopyalandı!')).catch(() => showToast(uri));
+}
+
+function showRedirectUriBox() {
+  const box = document.getElementById('redirectUriBox');
+  const txt = document.getElementById('redirectUriText');
+  if (box && txt) {
+    txt.textContent = getRedirectUri();
+    box.style.display = 'block';
+  }
+}
+
+function saveAndConnect() {
+  const clientId = document.getElementById('clientIdInput').value.trim();
+  const folderName = document.getElementById('rootFolderName').value.trim() || 'Tarifler';
+  if (!clientId) { showToast('⚠️ Client ID gerekli'); return; }
+  STATE.clientId = clientId;
+  STATE.rootFolderName = folderName;
+  save('clientId', clientId);
+  save('rootFolderName', folderName);
+  // Show redirect URI box so user can add it to Google Cloud
+  showRedirectUriBox();
+  startOAuth();
+}
+
+function startOAuth() {
+  const clientId = STATE.clientId || load('clientId');
+  if (!clientId) { showToast('⚠️ Önce Client ID gir'); return; }
+  STATE.clientId = clientId;
+
+  // Redirect URI: mevcut sayfanın tam adresi
+  const redirectUri = window.location.href.split('#')[0].split('?')[0];
+  save('redirectUri', redirectUri);
+
+  const params = new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    response_type: 'token',
+    scope: 'https://www.googleapis.com/auth/drive.readonly',
+    include_granted_scopes: 'true',
+    prompt: 'select_account',
+  });
+
+  // Direkt yönlendir (popup değil)
+  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+}
+
+function getRedirectUri() {
+  return window.location.href.split('#')[0].split('?')[0];
+}
+
+function handleOAuthCallback() {
+  const hash = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
+  const token = params.get('access_token');
+  if (token) {
+    STATE.accessToken = token;
+    save('accessToken', token);
+    save('tokenTime', Date.now());
+    window.history.replaceState({}, '', window.location.pathname);
+    updateDriveBtn(true);
+    showToast('✅ Drive bağlandı!');
+    initApp();
+  }
+}
+
+function handleDriveBtn() {
+  if (STATE.accessToken) {
+    STATE.accessToken = null;
+    save('accessToken', null);
+    updateDriveBtn(false);
+    showScreen('auth');
+    showToast('Çıkış yapıldı');
+  } else {
+    showScreen('auth');
+  }
+}
+
+function updateDriveBtn(connected) {
+  const btn = document.getElementById('driveBtn');
+  const txt = document.getElementById('driveBtnText');
+  if (connected) {
+    btn.classList.add('connected');
+    txt.textContent = 'Bağlı ✓';
+  } else {
+    btn.classList.remove('connected');
+    txt.textContent = 'Drive';
+  }
+}
+
+// ─── DRIVE API ───────────────────────────────────────────
+async function driveRequest(endpoint) {
+  const res = await fetch('https://www.googleapis.com/drive/v3/' + endpoint, {
+    headers: { Authorization: 'Bearer ' + STATE.accessToken }
+  });
+  if (!res.ok) {
+    if (res.status === 401) {
+      STATE.accessToken = null;
+      showScreen('auth');
+      showToast('⚠️ Oturum süresi doldu, tekrar giriş yap');
+      return null;
+    }
+    throw new Error('Drive API hatası: ' + res.status);
+  }
+  return res.json();
+}
+
+async function findFolder(name, parentId = null) {
+  let q = `name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+  if (parentId) q += ` and '${parentId}' in parents`;
+  const data = await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name)`);
+  return data?.files?.[0] || null;
+}
+
+async function listFolder(folderId) {
+  const q = `'${folderId}' in parents and trashed=false`;
+  const data = await driveRequest(
+    `files?q=${encodeURIComponent(q)}&fields=files(id,name,mimeType,size,modifiedTime)&orderBy=name`
+  );
+  return data?.files || [];
+}
+
+// ─── APP INIT ────────────────────────────────────────────
+async function initApp() {
+  showScreen('loading');
+  document.getElementById('loadingText').textContent = 'Tarifler klasörü aranıyor...';
+
+  try {
+    const folderName = STATE.rootFolderName || load('rootFolderName') || 'Tarifler';
+    const folder = await findFolder(folderName);
+    if (!folder) {
+      showMsg('Klasör Bulunamadı', `Drive'da "${folderName}" adında bir klasör bulunamadı. Klasör adını kontrol et.`);
+      return;
+    }
+    STATE.rootFolderId = folder.id;
+    STATE.stack = [];
+    updateHeader();
+    await loadCategories();
+  } catch(e) {
+    showMsg('Hata Oluştu', e.message);
+  }
+}
+
+async function loadCategories() {
+  showScreen('loading');
+  document.getElementById('loadingText').textContent = 'Kategoriler yükleniyor...';
+
+  try {
+    const items = await listFolder(STATE.rootFolderId);
+    if (!items) return;
+
+    const grid = document.getElementById('categoriesGrid');
+    grid.innerHTML = '';
+
+    if (items.length === 0) {
+      grid.innerHTML = '<div class="msg-box" style="grid-column:1/-1"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div><div class="msg-desc">Tarifler klasörünün içinde alt klasör bulunamadı.</div></div>';
+      showScreen('categories');
+      return;
+    }
+
+    items.forEach(item => {
+      const isFolder = item.mimeType === 'application/vnd.google-apps.folder';
+      const emoji = isFolder ? getCatEmoji(item.name) : getFileIcon(item.name, item.mimeType).icon;
+      const card = document.createElement('div');
+      card.className = 'cat-card';
+      card.innerHTML = `
+        <div>
+          <div class="cat-emoji">${emoji}</div>
+          <div class="cat-name">${item.name}</div>
+          <div class="cat-count">${isFolder ? 'Klasör' : 'Dosya'}</div>
+        </div>
+        <div class="cat-arrow">›</div>
+      `;
+      card.addEventListener('click', () => {
+        if (isFolder) {
+          STATE.stack = [{ name: item.name, folderId: item.id }];
+          updateHeader();
+          loadFiles(item.id, item.name);
+        } else {
+          STATE.stack = [];
+          openFile(item);
+        }
+      });
+      grid.appendChild(card);
+    });
+
+    showScreen('categories');
+  } catch(e) {
+    showMsg('Hata', e.message);
+  }
+}
+
+async function loadFiles(folderId, folderName, isBack = false) {
+  showScreen('loading');
+  document.getElementById('loadingText').textContent = `"${folderName}" yükleniyor...`;
+  STATE.currentFolderId = folderId;
+
+  try {
+    const items = await listFolder(folderId);
+    if (!items) return;
+
+    const list = document.getElementById('fileList');
+    list.innerHTML = '';
+
+    if (items.length === 0) {
+      list.innerHTML = '<div class="msg-box"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div><div class="msg-desc">Bu klasörde henüz dosya yok.</div></div>';
+      showScreen('files');
+      return;
+    }
+
+    items.forEach(item => {
+      const isFolder = item.mimeType === 'application/vnd.google-apps.folder';
+      const { icon, cls } = getFileIcon(item.name, item.mimeType);
+      const displayIcon = isFolder ? '📂' : icon;
+      const displayCls = isFolder ? 'folder' : cls;
+
+      const div = document.createElement('div');
+      div.className = 'file-item';
+      div.innerHTML = `
+        <div class="file-icon-wrap ${displayCls}">${displayIcon}</div>
+        <div class="file-info">
+          <div class="file-name">${item.name}</div>
+          <div class="file-meta">${isFolder ? 'Klasör' : formatSize(item.size)}</div>
+        </div>
+        <div class="file-chevron">›</div>
+      `;
+      div.addEventListener('click', () => {
+        if (isFolder) {
+          STATE.stack.push({ name: item.name, folderId: item.id });
+          updateHeader();
+          loadFiles(item.id, item.name);
+        } else {
+          openFile(item);
+        }
+      });
+      list.appendChild(div);
+    });
+
+    showScreen('files');
+  } catch(e) {
+    showMsg('Hata', e.message);
+  }
+}
+
+function formatSize(bytes) {
+  if (!bytes) return '';
+  const b = parseInt(bytes);
+  if (b > 1e9) return (b/1e9).toFixed(1) + ' GB';
+  if (b > 1e6) return (b/1e6).toFixed(1) + ' MB';
+  if (b > 1e3) return (b/1e3).toFixed(0) + ' KB';
+  return b + ' B';
+}
+
+// ─── FILE VIEWER ─────────────────────────────────────────
+async function openFile(item) {
+  const { icon } = getFileIcon(item.name, item.mimeType);
+  document.getElementById('viewerTitle').textContent = item.name;
+  document.getElementById('viewerMeta').textContent = formatSize(item.size) || item.mimeType || '';
+
+  const content = document.getElementById('viewerContent');
+  content.innerHTML = '<div class="loading"><div class="spinner"></div><div class="loading-text">Açılıyor...</div></div>';
+  showScreen('viewer');
+  STATE.stack.push({ name: item.name, folderId: null, fileItem: item });
+  updateHeader();
+
+  const ext = item.name.split('.').pop().toLowerCase();
+  const fileUrl = `https://www.googleapis.com/drive/v3/files/${item.id}?alt=media`;
+
+  // VIDEO
+  if (['mp4','mov','webm','avi'].includes(ext) || item.mimeType?.includes('video')) {
+    content.innerHTML = `
+      <video class="viewer-video" controls preload="metadata"
+        src="${fileUrl}#Authorization=Bearer ${STATE.accessToken}">
+      </video>`;
+    // Fetch with auth header for video
+    const video = content.querySelector('video');
+    try {
+      const resp = await fetch(fileUrl, { headers: { Authorization: 'Bearer ' + STATE.accessToken } });
+      const blob = await resp.blob();
+      video.src = URL.createObjectURL(blob);
+    } catch(e) {
+      // fallback: open in Drive
+      content.innerHTML = `<div class="viewer-text">Video oynatılamadı. <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent)">Drive'da Aç ↗</a></div>`;
+    }
+    return;
+  }
+
+  // IMAGE
+  if (['jpg','jpeg','png','gif','webp'].includes(ext) || item.mimeType?.includes('image')) {
+    try {
+      const resp = await fetch(fileUrl, { headers: { Authorization: 'Bearer ' + STATE.accessToken } });
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      content.innerHTML = `<img class="viewer-image" src="${url}" alt="${item.name}">`;
+    } catch(e) {
+      content.innerHTML = `<div class="viewer-text">Fotoğraf açılamadı. <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent)">Drive'da Aç ↗</a></div>`;
+    }
+    return;
+  }
+
+  // PDF
+  if (ext === 'pdf' || item.mimeType?.includes('pdf')) {
+    content.innerHTML = `<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview"></iframe>`;
+    return;
+  }
+
+  // TEXT
+  if (['txt','md','text'].includes(ext) || item.mimeType?.includes('text')) {
+    try {
+      const resp = await fetch(fileUrl, { headers: { Authorization: 'Bearer ' + STATE.accessToken } });
+      const text = await resp.text();
+      content.innerHTML = `<div class="viewer-text">${escapeHtml(text)}</div>`;
+    } catch(e) {
+      content.innerHTML = `<div class="viewer-text">Metin açılamadı.</div>`;
+    }
+    return;
+  }
+
+  // FALLBACK
+  content.innerHTML = `
+    <div class="viewer-text" style="text-align:center; padding: 40px 20px">
+      <div style="font-size:48px; margin-bottom:16px">📎</div>
+      <div style="margin-bottom:16px">Bu dosya türü önizlenemiyor.</div>
+      <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" 
+         style="color:var(--accent); font-weight:600">Drive'da Aç ↗</a>
+    </div>`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function showMsg(title, desc) {
+  const list = document.getElementById('fileList');
+  list.innerHTML = `
+    <div class="msg-box">
+      <div class="msg-icon">⚠️</div>
+      <div class="msg-title">${title}</div>
+      <div class="msg-desc">${desc}</div>
+      <button class="btn-secondary" onclick="showScreen('auth')">Ayarlara Dön</button>
+    </div>`;
+  showScreen('files');
+}
+
+// ─── BOOT ────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  // Check OAuth callback
+  if (window.location.hash.includes('access_token')) {
+    handleOAuthCallback();
+    return;
+  }
+
+  // Restore saved config
+  const savedClientId = load('clientId');
+  const savedToken = load('accessToken');
+  const savedFolder = load('rootFolderName');
+  const savedTime = load('tokenTime');
+
+  if (savedClientId) {
+    STATE.clientId = savedClientId;
+    document.getElementById('clientIdInput').value = savedClientId;
+  }
+  if (savedFolder) {
+    STATE.rootFolderName = savedFolder;
+    document.getElementById('rootFolderName').value = savedFolder;
+  }
+
+  // Token expires in ~1 hour
+  const tokenValid = savedToken && savedTime && (Date.now() - savedTime < 3500000);
+
+  if (tokenValid) {
+    STATE.accessToken = savedToken;
+    updateDriveBtn(true);
+    initApp();
+  } else {
+    showScreen('auth');
+  }
+});
+</script>
+</body>
+</html>
