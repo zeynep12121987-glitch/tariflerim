@@ -3,26 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#c45c1a">
+<meta name="theme-color" content="#ff6b35">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="data:application/json,{%22name%22:%22Tariflerim%22,%22short_name%22:%22Tariflerim%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%230f0800%22,%22theme_color%22:%22%23c45c1a%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🍽%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22any%22,%22type%22:%22image/svg+xml%22}]}">
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Tariflerim%22%2C%22short_name%22%3A%22Tariflerim%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fff8f0%22%2C%22theme_color%22%3A%22%23ff6b35%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Ctext%20y%3D'.9em'%20font-size%3D'90'%3E%F0%9F%8D%BD%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 <title>Tariflerim</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f0800;
-  --surface: #1a0e04;
-  --card: #221305;
-  --card2: #2a1a08;
-  --accent: #e8a043;
-  --accent2: #c45c1a;
-  --accent3: #f0c070;
-  --text: #f5e6cc;
-  --muted: #8a6a45;
-  --border: #3a2210;
-  --radius: 18px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --bg: #fff8f0;
+  --white: #ffffff;
+  --orange: #ff6b35;
+  --orange2: #ff8c42;
+  --orange3: #ffb347;
+  --green: #4caf50;
+  --text: #2d1b00;
+  --muted: #9e7a5a;
+  --border: #ffe0c8;
+  --card-shadow: 0 4px 16px rgba(255,107,53,0.13);
+  --radius: 20px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -32,80 +31,69 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 15% 10%, rgba(232,160,67,0.10) 0%, transparent 45%),
-    radial-gradient(ellipse at 85% 85%, rgba(196,92,26,0.10) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 50%, rgba(240,192,112,0.03) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-#app { position: relative; z-index: 1; }
+#app { max-width: 480px; margin: 0 auto; }
 
 /* ── HEADER ── */
 .header {
-  background: linear-gradient(180deg, rgba(26,14,4,0.98) 0%, rgba(26,14,4,0.7) 100%);
-  padding: 16px 16px 0;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffb347 100%);
+  padding: 18px 16px 14px;
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 3px 20px rgba(255,107,53,0.35);
 }
 
 .header-top {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .back-btn {
-  background: var(--card2);
-  border: 1px solid var(--border);
-  color: var(--accent);
+  background: rgba(255,255,255,0.25);
+  border: none;
+  color: #fff;
   width: 36px; height: 36px;
   border-radius: 50%;
   display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 22px;
   transition: all 0.18s;
   flex-shrink: 0;
   line-height: 1;
 }
-.back-btn:active { transform: scale(0.88); background: var(--accent); color: #000; }
+.back-btn:active { background: rgba(255,255,255,0.45); transform: scale(0.9); }
 .back-btn.visible { display: flex; }
 
-.title-block { flex: 1; min-width: 0; }
+.title-block { flex: 1; }
 
 .app-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 24px;
-  font-weight: 900;
-  color: var(--accent);
+  font-family: 'Fredoka One', cursive;
+  font-size: 26px;
+  color: #fff;
   line-height: 1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.app-title-icon {
-  font-size: 22px;
-  filter: drop-shadow(0 0 6px rgba(232,160,67,0.5));
+.app-subtitle {
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 2px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .breadcrumb {
   font-size: 11px;
-  color: var(--muted);
+  color: rgba(255,255,255,0.85);
   margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -113,12 +101,13 @@ body::before {
 }
 
 .drive-btn {
-  background: var(--card2);
-  border: 1px solid var(--border);
-  color: var(--muted);
+  background: rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: #fff;
   padding: 7px 12px;
   border-radius: 20px;
   font-size: 11px;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -126,98 +115,151 @@ body::before {
   transition: all 0.18s;
   white-space: nowrap;
   flex-shrink: 0;
+  font-family: 'Nunito', sans-serif;
 }
-.drive-btn:active { transform: scale(0.94); }
-.drive-btn.connected { color: #5ecf8a; border-color: rgba(94,207,138,0.35); background: rgba(94,207,138,0.08); }
+.drive-btn:active { transform: scale(0.94); background: rgba(255,255,255,0.35); }
+.drive-btn.connected { background: rgba(76,175,80,0.3); border-color: rgba(255,255,255,0.8); }
 
-.header-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(232,160,67,0.25), transparent);
-  margin-top: 10px;
+/* ── SEARCH BAR ── */
+.search-wrap {
+  position: relative;
 }
+
+.search-input {
+  width: 100%;
+  background: rgba(255,255,255,0.95);
+  border: none;
+  border-radius: 14px;
+  padding: 11px 42px 11px 16px;
+  font-size: 14px;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  outline: none;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.search-input::placeholder { color: #c4956a; }
+
+.search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--orange);
+  border: none;
+  color: #fff;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.search-clear.visible { display: flex; }
 
 /* ── SCREENS ── */
-.screen { display: none; padding: 16px; animation: fadeUp 0.28s ease; }
+.screen { display: none; padding: 16px; animation: fadeUp 0.25s ease; }
 .screen.active { display: block; }
-
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── AUTH SCREEN ── */
+/* ── SEARCH RESULTS ── */
+.search-results {
+  display: none;
+  padding: 16px;
+  animation: fadeUp 0.25s ease;
+}
+.search-results.active { display: block; }
+
+.search-result-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+/* ── AUTH ── */
 .auth-card {
-  background: linear-gradient(145deg, var(--card2), var(--card));
-  border: 1px solid var(--border);
+  background: var(--white);
   border-radius: var(--radius);
   padding: 28px 20px;
   text-align: center;
   margin-top: 20px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--card-shadow);
+  border: 1.5px solid var(--border);
 }
-
-.auth-icon { font-size: 52px; margin-bottom: 14px; filter: drop-shadow(0 4px 12px rgba(232,160,67,0.3)); }
-.auth-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent); margin-bottom: 8px; }
-.auth-desc { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 24px; }
+.auth-icon { font-size: 52px; margin-bottom: 14px; }
+.auth-title { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--orange); margin-bottom: 8px; }
+.auth-desc { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 22px; }
 
 .btn-primary {
-  background: linear-gradient(135deg, #e8a043, #c45c1a);
+  background: linear-gradient(135deg, var(--orange), var(--orange2));
   color: #fff;
   border: none;
   padding: 14px 28px;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   width: 100%;
-  transition: all 0.18s;
   font-family: 'Nunito', sans-serif;
-  letter-spacing: 0.3px;
-  box-shadow: 0 4px 16px rgba(196,92,26,0.35);
+  box-shadow: 0 4px 16px rgba(255,107,53,0.4);
+  transition: all 0.18s;
 }
-.btn-primary:active { transform: scale(0.97); opacity: 0.88; }
+.btn-primary:active { transform: scale(0.97); opacity: 0.9; }
 
 .setup-steps { margin-top: 22px; text-align: left; }
 .step { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .step:last-child { border-bottom: none; }
-.step-num { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #000; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.step-num { background: linear-gradient(135deg, var(--orange), var(--orange2)); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
 .step-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
 .step-text strong { color: var(--text); }
 
-/* ── SETUP CARD ── */
 .setup-card {
-  background: linear-gradient(145deg, var(--card2), var(--card));
-  border: 1px solid var(--border);
+  background: var(--white);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 20px;
   margin-bottom: 14px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--card-shadow);
 }
-
-.setup-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 7px; }
-
+.setup-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 7px; font-weight: 700; }
 .setup-input {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
   padding: 11px 14px;
   color: var(--text);
   font-size: 14px;
   width: 100%;
   font-family: 'Nunito', sans-serif;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s;
 }
-.setup-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232,160,67,0.12); }
+.setup-input:focus { border-color: var(--orange); }
 .setup-input::placeholder { color: var(--muted); }
 .setup-hint { font-size: 11px; color: var(--muted); margin-top: 7px; line-height: 1.5; }
 
 /* ── SECTION LABEL ── */
 .section-label {
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1.8px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 16px;
+  color: var(--orange);
   margin-bottom: 12px;
   padding-left: 2px;
 }
@@ -226,219 +268,183 @@ body::before {
 .categories-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .cat-card {
-  background: linear-gradient(145deg, var(--card2), var(--card));
-  border: 1px solid var(--border);
+  background: var(--white);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 18px 14px 16px;
   cursor: pointer;
   transition: all 0.18s;
   position: relative;
   overflow: hidden;
-  min-height: 120px;
+  min-height: 130px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--shadow);
+  box-shadow: var(--card-shadow);
 }
 
-.cat-card::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  opacity: 0;
-  transition: opacity 0.18s;
-}
-
-.cat-card:active { transform: scale(0.96); border-color: var(--accent); }
-.cat-card:active::after { opacity: 1; }
+.cat-card:active { transform: scale(0.96) translateY(2px); box-shadow: 0 2px 8px rgba(255,107,53,0.2); border-color: var(--orange); }
 
 .cat-emoji {
-  font-size: 36px;
+  font-size: 40px;
   margin-bottom: 10px;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
 }
 
 .cat-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 15px;
-  font-weight: 700;
+  font-family: 'Fredoka One', cursive;
+  font-size: 16px;
   color: var(--text);
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
 .cat-count {
   font-size: 10px;
   color: var(--muted);
   margin-top: 3px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
 }
 
 .cat-arrow {
   position: absolute;
   bottom: 12px;
-  right: 12px;
-  color: var(--accent);
-  font-size: 18px;
+  right: 14px;
+  color: var(--orange);
+  font-size: 20px;
   opacity: 0.5;
 }
 
-/* ── QUICK LINKS (Ana menü alt kısmı) ── */
-.quick-links {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* ── QUICK LINKS ── */
+.quick-links { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+.ql-divider {
+  display: flex; align-items: center; gap: 10px; margin: 8px 0 4px;
+}
+.ql-divider-line { flex: 1; height: 1.5px; background: var(--border); border-radius: 2px; }
+.ql-divider-text {
+  font-size: 10px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 1px; font-weight: 800; white-space: nowrap;
 }
 
 .quick-link-card {
-  background: linear-gradient(145deg, var(--card2), var(--card));
-  border: 1px solid var(--border);
+  background: var(--white);
+  border: 1.5px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   gap: 14px;
   cursor: pointer;
   text-decoration: none;
   transition: all 0.18s;
-  box-shadow: var(--shadow);
+  box-shadow: var(--card-shadow);
 }
-.quick-link-card:active { transform: scale(0.97); border-color: var(--accent); }
+.quick-link-card:active { transform: scale(0.97); border-color: var(--orange); }
 
 .ql-icon {
   width: 52px; height: 52px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden;
+  font-size: 28px;
 }
-
+.ql-icon.supercook { background: linear-gradient(135deg, #ff6b35, #ffb347); }
+.ql-icon.turkomp { background: #fff; border: 1px solid var(--border); padding: 6px; }
 .ql-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
-.ql-icon.supercook { background: linear-gradient(135deg, #ff6b35, #f7931e); font-size: 28px; }
-.ql-icon.turkomp { background: #fff; padding: 6px; }
 
 .ql-info { flex: 1; min-width: 0; }
-
-.ql-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 3px;
-}
-
-.ql-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
-.ql-arrow { color: var(--accent); font-size: 18px; opacity: 0.6; flex-shrink: 0; }
-
-.ql-divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 4px 0;
-}
-.ql-divider-line { flex: 1; height: 1px; background: var(--border); }
-.ql-divider-text { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.ql-title { font-family: 'Fredoka One', cursive; font-size: 15px; color: var(--text); margin-bottom: 3px; }
+.ql-desc { font-size: 11px; color: var(--muted); line-height: 1.4; font-weight: 600; }
+.ql-arrow { color: var(--orange); font-size: 20px; opacity: 0.7; flex-shrink: 0; }
 
 /* ── FILE LIST ── */
 .file-list { display: flex; flex-direction: column; gap: 8px; }
 
 .file-item {
-  background: linear-gradient(145deg, var(--card2), var(--card));
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
   padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; align-items: center; gap: 12px;
   cursor: pointer;
   transition: all 0.18s;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 10px rgba(255,107,53,0.08);
 }
-.file-item:active { transform: scale(0.97); border-color: var(--accent); }
+.file-item:active { transform: scale(0.97); border-color: var(--orange); }
 
 .file-icon-wrap {
-  width: 42px; height: 42px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
 }
-.file-icon-wrap.video { background: rgba(196,92,26,0.18); }
-.file-icon-wrap.image { background: rgba(94,207,138,0.15); }
-.file-icon-wrap.pdf { background: rgba(239,83,80,0.15); }
-.file-icon-wrap.text { background: rgba(100,149,237,0.15); }
-.file-icon-wrap.folder { background: rgba(232,160,67,0.18); }
+.file-icon-wrap.video { background: #fff3e0; }
+.file-icon-wrap.image { background: #e8f5e9; }
+.file-icon-wrap.pdf { background: #fce4ec; }
+.file-icon-wrap.text { background: #e3f2fd; }
+.file-icon-wrap.folder { background: #fff8e1; }
 
 .file-info { flex: 1; min-width: 0; }
-.file-name { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.file-meta { font-size: 10px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-.file-chevron { color: var(--muted); font-size: 18px; flex-shrink: 0; opacity: 0.6; }
+.file-name { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-meta { font-size: 10px; color: var(--muted); margin-top: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+.file-chevron { color: var(--orange); font-size: 20px; flex-shrink: 0; opacity: 0.6; }
 
 /* ── VIEWER ── */
-.viewer-container { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; box-shadow: var(--shadow); }
+.viewer-container { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; box-shadow: var(--card-shadow); }
 .viewer-video { width: 100%; background: #000; display: block; max-height: 56vw; }
 .viewer-image { width: 100%; display: block; border-radius: var(--radius); }
 .viewer-pdf { width: 100%; height: 72vh; border: none; display: block; }
 .viewer-text { padding: 20px; font-size: 14px; line-height: 1.85; color: var(--text); white-space: pre-wrap; word-break: break-word; }
-.viewer-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--accent); margin-bottom: 4px; }
-.viewer-meta { font-size: 11px; color: var(--muted); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+.viewer-title { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--orange); margin-bottom: 4px; }
+.viewer-meta { font-size: 11px; color: var(--muted); margin-bottom: 14px; font-weight: 700; text-transform: uppercase; }
 
 /* ── LOADING ── */
 .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 70px 20px; gap: 16px; }
-.spinner { width: 38px; height: 38px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; }
+.spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin 0.75s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { color: var(--muted); font-size: 13px; }
+.loading-text { color: var(--muted); font-size: 13px; font-weight: 700; }
 
 /* ── MSG BOX ── */
-.msg-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 30px 18px; text-align: center; margin-top: 16px; }
-.msg-icon { font-size: 38px; margin-bottom: 10px; }
-.msg-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.msg-box { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 30px 18px; text-align: center; margin-top: 16px; box-shadow: var(--card-shadow); }
+.msg-icon { font-size: 40px; margin-bottom: 10px; }
+.msg-title { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--text); margin-bottom: 6px; }
 .msg-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
 .btn-secondary {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  padding: 11px 22px;
-  border-radius: 10px;
-  font-size: 13px;
-  cursor: pointer;
-  margin-top: 14px;
-  font-family: 'Nunito', sans-serif;
-  transition: all 0.18s;
+  background: transparent; border: 2px solid var(--orange); color: var(--orange);
+  padding: 11px 22px; border-radius: 12px; font-size: 13px; font-weight: 800;
+  cursor: pointer; margin-top: 14px; font-family: 'Nunito', sans-serif; transition: all 0.18s;
 }
-.btn-secondary:active { background: var(--accent); color: #000; }
+.btn-secondary:active { background: var(--orange); color: #fff; }
 
 /* ── TOAST ── */
 .toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
+  position: fixed; bottom: 24px; left: 50%;
   transform: translateX(-50%) translateY(80px);
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: #fff;
-  padding: 10px 22px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--orange), var(--orange2));
+  color: #fff; padding: 11px 24px; border-radius: 20px;
+  font-size: 13px; font-weight: 800;
   transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
-  z-index: 999;
-  white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(196,92,26,0.4);
+  z-index: 999; white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(255,107,53,0.45);
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── NO RESULTS ── */
+.no-results {
+  text-align: center; padding: 40px 20px;
+  background: var(--white); border-radius: var(--radius);
+  border: 1.5px solid var(--border);
+}
+.no-results-icon { font-size: 48px; margin-bottom: 12px; }
+.no-results-text { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--muted); }
 
 .safe-bottom { height: 32px; }
 </style>
@@ -451,16 +457,21 @@ body::before {
   <div class="header-top">
     <button class="back-btn" id="backBtn" onclick="goBack()">‹</button>
     <div class="title-block">
-      <div class="app-title">
-        <span class="app-title-icon">🍽</span> Tariflerim
-      </div>
-      <div class="breadcrumb" id="breadcrumb">Ana Menü</div>
+      <div class="app-title">🍽 Tariflerim</div>
+      <div class="breadcrumb" id="breadcrumb">Lezzetli Tarifler</div>
     </div>
     <button class="drive-btn" id="driveBtn" onclick="handleDriveBtn()">
       <span>▲</span><span id="driveBtnText">Drive</span>
     </button>
   </div>
-  <div class="header-divider"></div>
+  <div class="search-wrap" id="searchWrap">
+    <input class="search-input" id="searchInput" type="text"
+      placeholder="Tarif Ara... Örn: Makarna, Kek"
+      oninput="handleSearch(this.value)"
+      autocomplete="off" autocorrect="off" spellcheck="false">
+    <span class="search-icon" id="searchIcon">🔍</span>
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  </div>
 </div>
 
 <!-- AUTH SCREEN -->
@@ -476,7 +487,6 @@ body::before {
       <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Hazır!</strong> Kategoriler otomatik yüklenecek</div></div>
     </div>
   </div>
-
   <div class="setup-card" style="margin-top:14px">
     <div class="setup-label">Hızlı Kurulum</div>
     <div style="margin-bottom:12px">
@@ -487,13 +497,13 @@ body::before {
     <div style="margin-bottom:12px">
       <div class="setup-label">Google Client ID</div>
       <input class="setup-input" id="clientIdInput" type="text" placeholder="xxxx.apps.googleusercontent.com">
-      <div class="setup-hint">⚙️ <a href="#" onclick="showClientIdHelp()" style="color:var(--accent)">Client ID nasıl alınır?</a></div>
+      <div class="setup-hint">⚙️ <a href="#" onclick="showClientIdHelp()" style="color:var(--orange)">Client ID nasıl alınır?</a></div>
     </div>
-    <div id="redirectUriBox" style="display:none; margin-top:12px; padding:12px; background:var(--surface); border-radius:10px; border:1px solid var(--accent)">
-      <div style="font-size:10px; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px">⚠️ Google Cloud'a Bu Adresi Ekle</div>
-      <div id="redirectUriText" style="font-size:11px; color:var(--text); word-break:break-all; font-family:monospace; padding:8px; background:var(--bg); border-radius:6px"></div>
+    <div id="redirectUriBox" style="display:none; margin-top:12px; padding:12px; background:var(--bg); border-radius:12px; border:1.5px solid var(--orange)">
+      <div style="font-size:10px; color:var(--orange); font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px">⚠️ Google Cloud'a Bu Adresi Ekle</div>
+      <div id="redirectUriText" style="font-size:11px; color:var(--text); word-break:break-all; font-family:monospace; padding:8px; background:#fff; border-radius:8px; border:1px solid var(--border)"></div>
       <div style="font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5">Hem <strong>JavaScript origins</strong> hem <strong>Redirect URIs</strong> alanına ekle → Kaydet → Tekrar bağlan</div>
-      <button onclick="copyRedirectUri()" style="margin-top:10px; width:100%; padding:10px; background:transparent; border:1px solid var(--accent); color:var(--accent); border-radius:8px; cursor:pointer; font-size:13px; font-family:Nunito,sans-serif; font-weight:600">📋 Adresi Kopyala</button>
+      <button onclick="copyRedirectUri()" style="margin-top:10px; width:100%; padding:10px; background:var(--orange); border:none; color:#fff; border-radius:10px; cursor:pointer; font-size:13px; font-family:Nunito,sans-serif; font-weight:800">📋 Adresi Kopyala</button>
     </div>
     <button class="btn-primary" onclick="saveAndConnect()" style="margin-top:12px">Kaydet ve Bağlan</button>
   </div>
@@ -503,14 +513,14 @@ body::before {
 <!-- HELP SCREEN -->
 <div class="screen" id="screen-help">
   <div class="setup-card">
-    <div class="setup-label" style="color:var(--accent)">Client ID Nasıl Alınır?</div>
+    <div class="setup-label" style="color:var(--orange)">Client ID Nasıl Alınır?</div>
     <div style="font-size:13px; color:var(--muted); line-height:1.8">
       <div class="step"><div class="step-num">1</div><div class="step-text">Tarayıcında <strong style="color:var(--text)">console.cloud.google.com</strong> aç</div></div>
       <div class="step"><div class="step-num">2</div><div class="step-text"><strong style="color:var(--text)">Yeni Proje</strong> oluştur</div></div>
       <div class="step"><div class="step-num">3</div><div class="step-text">API Kitaplığı → <strong style="color:var(--text)">Google Drive API</strong> → Etkinleştir</div></div>
-      <div class="step"><div class="step-num">4</div><div class="step-text">OAuth onay ekranı → <strong style="color:var(--text)">Harici</strong> → Oluştur</div></div>
-      <div class="step"><div class="step-num">5</div><div class="step-text">Kimlik Bilgileri → <strong style="color:var(--text)">OAuth 2.0 İstemci Kimliği → Web Uygulaması</strong></div></div>
-      <div class="step"><div class="step-num">6</div><div class="step-text">Oluşturulan <strong style="color:var(--text)">Client ID'yi kopyala</strong> → buraya yapıştır</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">OAuth onay ekranı → Harici → Oluştur</div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Kimlik Bilgileri → <strong style="color:var(--text)">OAuth 2.0 → Web Uygulaması</strong></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-text">Client ID'yi kopyala → buraya yapıştır</div></div>
     </div>
   </div>
   <button class="btn-secondary" onclick="showScreen('auth')" style="width:100%">← Geri Dön</button>
@@ -527,15 +537,13 @@ body::before {
 
 <!-- CATEGORIES -->
 <div class="screen" id="screen-categories">
-  <div class="section-label">Kategoriler</div>
+  <div class="section-label">📂 Kategoriler</div>
   <div class="categories-grid" id="categoriesGrid"></div>
-
-  <div class="ql-divider" style="margin-top:24px">
+  <div class="ql-divider" style="margin-top:22px">
     <div class="ql-divider-line"></div>
     <div class="ql-divider-text">Faydalı Bağlantılar</div>
     <div class="ql-divider-line"></div>
   </div>
-
   <div class="quick-links">
     <a class="quick-link-card" href="https://www.supercook.com" target="_blank">
       <div class="ql-icon supercook">🍳</div>
@@ -545,25 +553,30 @@ body::before {
       </div>
       <div class="ql-arrow">↗</div>
     </a>
-
     <a class="quick-link-card" href="https://turkomp.tarimorman.gov.tr/main" target="_blank">
       <div class="ql-icon turkomp">
         <img src="data:image/png;base64,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" alt="TürKomp">
       </div>
       <div class="ql-info">
         <div class="ql-title">Ulusal Gıda Kompozisyon</div>
-        <div class="ql-desc">TürKomp — Türkiye Gıda Besin Veri Tabanı</div>
+        <div class="ql-desc">TürKomp — Türkiye Besin Veri Tabanı</div>
       </div>
       <div class="ql-arrow">↗</div>
     </a>
   </div>
-
   <div class="safe-bottom"></div>
 </div>
 
 <!-- FILE LIST -->
 <div class="screen" id="screen-files">
   <div class="file-list" id="fileList"></div>
+  <div class="safe-bottom"></div>
+</div>
+
+<!-- SEARCH RESULTS -->
+<div class="search-results" id="searchResults">
+  <div class="search-result-label" id="searchResultLabel"></div>
+  <div class="file-list" id="searchResultList"></div>
   <div class="safe-bottom"></div>
 </div>
 
@@ -580,20 +593,18 @@ body::before {
 
 <script>
 const STATE = {
-  accessToken: null,
-  rootFolderId: null,
-  clientId: null,
-  rootFolderName: 'Tarifler',
-  stack: [],
-  currentFolderId: null,
+  accessToken: null, rootFolderId: null, clientId: null,
+  rootFolderName: 'Tarifler', stack: [], currentFolderId: null,
+  allFiles: [], // tüm dosyalar arama için
+  allFilesLoaded: false,
 };
 
 const CAT_EMOJIS = {
   'ekmek':'🍞','yöresel':'🫕','yoresel':'🫕','makarna':'🍝','mantı':'🥟','manti':'🥟',
   'pizza':'🍕','tatlı':'🍰','tatli':'🍰','dondurma':'🍦','çorba':'🍲','corba':'🍲',
   'salata':'🥗','et':'🥩','tavuk':'🍗','balık':'🐟','balik':'🐟','börek':'🥐','borek':'🥐',
-  'yemek':'🍜','sebze':'🥦','meyve':'🍎','kahvaltı':'🍳','kahvalti':'🍳','içecek':'🧃',
-  'icecek':'🧃','pilav':'🍚','çay':'☕','kek':'🎂','kurabiye':'🍪',
+  'yemek':'🍜','sebze':'🥦','meyve':'🍎','kahvaltı':'🍳','kahvalti':'🍳',
+  'pilav':'🍚','kek':'🎂','kurabiye':'🍪','hamur':'🥐','pide':'🫓','hamurişi':'🥐',
 };
 
 function getCatEmoji(name) {
@@ -605,10 +616,10 @@ function getCatEmoji(name) {
 function getFileIcon(name, mime) {
   if (mime === 'application/vnd.google-apps.folder') return {icon:'📂',cls:'folder'};
   const ext = name.split('.').pop().toLowerCase();
-  if (['mp4','mov','avi','mkv','webm'].includes(ext) || mime?.includes('video')) return {icon:'🎬',cls:'video'};
-  if (['jpg','jpeg','png','gif','webp'].includes(ext) || mime?.includes('image')) return {icon:'🖼',cls:'image'};
-  if (ext==='pdf' || mime?.includes('pdf')) return {icon:'📄',cls:'pdf'};
-  if (['txt','md'].includes(ext) || mime?.includes('text')) return {icon:'📝',cls:'text'};
+  if (['mp4','mov','avi','mkv','webm'].includes(ext)||mime?.includes('video')) return {icon:'🎬',cls:'video'};
+  if (['jpg','jpeg','png','gif','webp'].includes(ext)||mime?.includes('image')) return {icon:'🖼',cls:'image'};
+  if (ext==='pdf'||mime?.includes('pdf')) return {icon:'📄',cls:'pdf'};
+  if (['txt','md'].includes(ext)||mime?.includes('text')) return {icon:'📝',cls:'text'};
   return {icon:'📎',cls:'text'};
 }
 
@@ -617,6 +628,7 @@ function load(k) { try{const v=localStorage.getItem(k);return v?JSON.parse(v):nu
 
 function showScreen(n) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('searchResults').classList.remove('active');
   document.getElementById('screen-'+n).classList.add('active');
 }
 
@@ -634,13 +646,16 @@ function updateHeader() {
     bc.textContent=STATE.stack.map(s=>s.name).join(' › ');
   } else {
     btn.classList.remove('visible');
-    bc.textContent='Ana Menü';
+    bc.textContent='Lezzetli Tarifler';
   }
 }
 
 function goBack() {
-  STATE.stack.pop();
-  updateHeader();
+  // Arama açıksa önce aramayı kapat
+  if (document.getElementById('searchResults').classList.contains('active')) {
+    clearSearch(); return;
+  }
+  STATE.stack.pop(); updateHeader();
   if (STATE.stack.length===0) { loadCategories(); }
   else {
     const p=STATE.stack[STATE.stack.length-1];
@@ -649,6 +664,85 @@ function goBack() {
   }
 }
 
+// ── SEARCH ──────────────────────────────────────────────
+let searchTimeout = null;
+
+function handleSearch(val) {
+  const clear = document.getElementById('searchClear');
+  const icon = document.getElementById('searchIcon');
+  if (val.length > 0) {
+    clear.classList.add('visible'); icon.style.display='none';
+  } else {
+    clear.classList.remove('visible'); icon.style.display='';
+    hideSearchResults(); return;
+  }
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(()=>doSearch(val), 300);
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value='';
+  document.getElementById('searchClear').classList.remove('visible');
+  document.getElementById('searchIcon').style.display='';
+  hideSearchResults();
+}
+
+function hideSearchResults() {
+  document.getElementById('searchResults').classList.remove('active');
+  // son ekranı geri göster
+  const lastScreen = STATE.stack.length > 0 ? 'files' : 'categories';
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+lastScreen).classList.add('active');
+}
+
+async function doSearch(query) {
+  if (!STATE.accessToken) return;
+  const q = query.toLowerCase().trim();
+  if (!q) return;
+
+  // Drive'da dosya ara
+  const searchQ = `name contains '${q}' and trashed=false and '${STATE.rootFolderId}' in parents or name contains '${q}' and trashed=false`;
+  const driveQ = `name contains '${q}' and trashed=false`;
+  
+  try {
+    const data = await driveRequest(`files?q=${encodeURIComponent(driveQ)}&fields=files(id,name,mimeType,size)&orderBy=name&pageSize=30`);
+    const files = (data?.files||[]).filter(f=>f.mimeType!=='application/vnd.google-apps.folder');
+    
+    const label = document.getElementById('searchResultLabel');
+    const list = document.getElementById('searchResultList');
+    
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('searchResults').classList.add('active');
+    
+    if (files.length===0) {
+      label.textContent = '"'+query+'" için sonuç bulunamadı';
+      list.innerHTML='<div class="no-results"><div class="no-results-icon">🔍</div><div class="no-results-text">Sonuç bulunamadı</div></div>';
+      return;
+    }
+    
+    label.textContent = files.length+' sonuç bulundu: "'+query+'"';
+    list.innerHTML='';
+    files.forEach(item=>{
+      const {icon,cls}=getFileIcon(item.name,item.mimeType);
+      const div=document.createElement('div');
+      div.className='file-item';
+      div.innerHTML=`
+        <div class="file-icon-wrap ${cls}">${icon}</div>
+        <div class="file-info">
+          <div class="file-name">${item.name}</div>
+          <div class="file-meta">${formatSize(item.size)}</div>
+        </div>
+        <div class="file-chevron">›</div>`;
+      div.addEventListener('click',()=>{
+        clearSearch();
+        openFile(item);
+      });
+      list.appendChild(div);
+    });
+  } catch(e) { console.error(e); }
+}
+
+// ── AUTH ────────────────────────────────────────────────
 function showClientIdHelp() { showScreen('help'); }
 
 function copyRedirectUri() {
@@ -668,8 +762,7 @@ function saveAndConnect() {
   if(!clientId){showToast('⚠️ Client ID gerekli');return;}
   STATE.clientId=clientId; STATE.rootFolderName=folderName;
   save('clientId',clientId); save('rootFolderName',folderName);
-  showRedirectUriBox();
-  startOAuth();
+  showRedirectUriBox(); startOAuth();
 }
 
 function startOAuth() {
@@ -715,6 +808,7 @@ function updateDriveBtn(connected) {
   else { btn.classList.remove('connected'); txt.textContent='Drive'; }
 }
 
+// ── DRIVE API ───────────────────────────────────────────
 async function driveRequest(endpoint) {
   const res=await fetch('https://www.googleapis.com/drive/v3/'+endpoint,{
     headers:{Authorization:'Bearer '+STATE.accessToken}
@@ -739,6 +833,7 @@ async function listFolder(folderId) {
   return data?.files||[];
 }
 
+// ── INIT ────────────────────────────────────────────────
 async function initApp() {
   showScreen('loading');
   document.getElementById('loadingText').textContent='Tarifler klasörü aranıyor...';
@@ -763,7 +858,6 @@ async function loadCategories() {
       grid.innerHTML='<div class="msg-box" style="grid-column:1/-1"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';
       showScreen('categories'); return;
     }
-    // A>Z sırala
     items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));
     items.forEach(item=>{
       const isFolder=item.mimeType==='application/vnd.google-apps.folder';
@@ -800,7 +894,6 @@ async function loadFiles(folderId,folderName,isBack=false) {
       list.innerHTML='<div class="msg-box"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';
       showScreen('files'); return;
     }
-    // A>Z sırala
     items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));
     items.forEach(item=>{
       const isFolder=item.mimeType==='application/vnd.google-apps.folder';
@@ -853,7 +946,7 @@ async function openFile(item) {
       const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
       video.src=URL.createObjectURL(await resp.blob());
     } catch(e) {
-      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:12px">🎬</div><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent);font-weight:700">Drive'da Aç ↗</a></div>`;
+      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:12px">🎬</div><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--orange);font-weight:800;font-size:15px">Drive'da Aç ↗</a></div>`;
     }
     return;
   }
@@ -863,7 +956,7 @@ async function openFile(item) {
       const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
       content.innerHTML=`<img class="viewer-image" src="${URL.createObjectURL(await resp.blob())}" alt="${item.name}">`;
     } catch(e) {
-      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--accent)">Drive'da Aç ↗</a></div>`;
+      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--orange)">Drive'da Aç ↗</a></div>`;
     }
     return;
   }
@@ -882,12 +975,11 @@ async function openFile(item) {
     return;
   }
 
-  // DOC / diğer → Drive'da aç
   content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:50px 20px">
     <div style="font-size:52px;margin-bottom:16px">📄</div>
-    <div style="margin-bottom:20px;color:var(--muted)">Bu dosya Drive'da açılacak</div>
+    <div style="margin-bottom:20px;color:var(--muted);font-weight:700">Bu dosya Drive'da açılacak</div>
     <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank"
-       style="background:linear-gradient(135deg,#e8a043,#c45c1a);color:#fff;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:700;font-size:15px">
+       style="background:linear-gradient(135deg,#ff6b35,#ff8c42);color:#fff;padding:14px 28px;border-radius:14px;text-decoration:none;font-weight:800;font-size:15px;box-shadow:0 4px 16px rgba(255,107,53,0.4)">
       Drive'da Aç ↗
     </a></div>`;
 }
