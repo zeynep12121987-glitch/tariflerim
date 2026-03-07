@@ -204,7 +204,7 @@ body {
   border: 1.5px solid var(--border);
 }
 .auth-icon { font-size: 52px; margin-bottom: 14px; }
-.auth-title { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--orange); margin-bottom: 8px; }
+.auth-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 22px; color: var(--orange); margin-bottom: 8px; }
 .auth-desc { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 22px; }
 
 .btn-primary {
@@ -257,7 +257,7 @@ body {
 
 /* ── SECTION LABEL ── */
 .section-label {
-  font-family: 'Fredoka One', cursive;
+  font-family: 'Nunito', sans-serif; font-weight: 800;
   font-size: 16px;
   color: var(--orange);
   margin-bottom: 12px;
@@ -297,8 +297,9 @@ body {
 }
 
 .cat-name {
-  font-family: 'Fredoka One', cursive;
-  font-size: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
   color: var(--text);
   line-height: 1.2;
 }
@@ -360,7 +361,7 @@ body {
 .ql-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
 
 .ql-info { flex: 1; min-width: 0; }
-.ql-title { font-family: 'Fredoka One', cursive; font-size: 15px; color: var(--text); margin-bottom: 3px; }
+.ql-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: var(--text); margin-bottom: 3px; }
 .ql-desc { font-size: 11px; color: var(--muted); line-height: 1.4; font-weight: 600; }
 .ql-arrow { color: var(--orange); font-size: 20px; opacity: 0.7; flex-shrink: 0; }
 
@@ -392,7 +393,7 @@ body {
 .file-icon-wrap.folder { background: #fff8e1; }
 
 .file-info { flex: 1; min-width: 0; }
-.file-name { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-name { font-size: 14px; font-weight: 700; font-family: 'Nunito', sans-serif; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .file-meta { font-size: 10px; color: var(--muted); margin-top: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
 .file-chevron { color: var(--orange); font-size: 20px; flex-shrink: 0; opacity: 0.6; }
 
@@ -402,7 +403,7 @@ body {
 .viewer-image { width: 100%; display: block; border-radius: var(--radius); }
 .viewer-pdf { width: 100%; height: 72vh; border: none; display: block; }
 .viewer-text { padding: 20px; font-size: 14px; line-height: 1.85; color: var(--text); white-space: pre-wrap; word-break: break-word; }
-.viewer-title { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--orange); margin-bottom: 4px; }
+.viewer-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 20px; color: var(--orange); margin-bottom: 4px; }
 .viewer-meta { font-size: 11px; color: var(--muted); margin-bottom: 14px; font-weight: 700; text-transform: uppercase; }
 
 /* ── LOADING ── */
@@ -414,7 +415,7 @@ body {
 /* ── MSG BOX ── */
 .msg-box { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 30px 18px; text-align: center; margin-top: 16px; box-shadow: var(--card-shadow); }
 .msg-icon { font-size: 40px; margin-bottom: 10px; }
-.msg-title { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--text); margin-bottom: 6px; }
+.msg-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; color: var(--text); margin-bottom: 6px; }
 .msg-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
 .btn-secondary {
@@ -774,7 +775,8 @@ function startOAuth() {
   const params=new URLSearchParams({
     client_id:clientId, redirect_uri:redirectUri,
     response_type:'token', scope:'https://www.googleapis.com/auth/drive.readonly',
-    include_granted_scopes:'true', prompt:'select_account',
+    include_granted_scopes:'true', prompt:'none',
+    login_hint:'zeynep12121987@gmail.com',
   });
   window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
 }
@@ -998,8 +1000,14 @@ window.addEventListener('load',()=>{
   const savedTime=load('tokenTime');
   if(savedClientId){ STATE.clientId=savedClientId; document.getElementById('clientIdInput').value=savedClientId; }
   if(savedFolder){ STATE.rootFolderName=savedFolder; document.getElementById('rootFolderName').value=savedFolder; }
-  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<3500000);
+  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<25200000);
   if(tokenValid){ STATE.accessToken=savedToken; updateDriveBtn(true); initApp(); }
+  else if(savedClientId) {
+    // Token süresi dolmuş, sessizce yenile
+    STATE.clientId=savedClientId;
+    STATE.rootFolderName=savedFolder||'Tarifler';
+    startOAuth();
+  }
   else { showScreen('auth'); }
 });
 </script>
