@@ -977,13 +977,7 @@ async function openFile(item) {
     return;
   }
 
-  content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:50px 20px">
-    <div style="font-size:52px;margin-bottom:16px">📄</div>
-    <div style="margin-bottom:20px;color:var(--muted);font-weight:700">Bu dosya Drive'da açılacak</div>
-    <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank"
-       style="background:linear-gradient(135deg,#ff6b35,#ff8c42);color:#fff;padding:14px 28px;border-radius:14px;text-decoration:none;font-weight:800;font-size:15px;box-shadow:0 4px 16px rgba(255,107,53,0.4)">
-      Drive'da Aç ↗
-    </a></div>`;
+  content.innerHTML=`<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview?authuser=0"></iframe>`;
 }
 
 function showMsg(title,desc) {
