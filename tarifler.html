@@ -781,6 +781,57 @@ function startOAuth() {
   window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
 }
 
+function silentRefresh(clientId) {
+  // Gizli iframe ile token yenile - ekran kırpışması olmaz
+  showScreen('loading');
+  document.getElementById('loadingText').textContent = 'Bağlanıyor...';
+  
+  const redirectUri = getRedirectUri();
+  const params = new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    response_type: 'token',
+    scope: 'https://www.googleapis.com/auth/drive.readonly',
+    prompt: 'none',
+    login_hint: 'zeynep12121987@gmail.com',
+  });
+
+  const iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  iframe.src = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+  document.body.appendChild(iframe);
+
+  // iframe'den mesaj dinle
+  const timer = setTimeout(() => {
+    // 5 saniye içinde cevap gelmezse normal giriş ekranına git
+    document.body.removeChild(iframe);
+    showScreen('auth');
+  }, 5000);
+
+  iframe.onload = () => {
+    try {
+      const hash = iframe.contentWindow.location.hash;
+      if (hash && hash.includes('access_token')) {
+        clearTimeout(timer);
+        document.body.removeChild(iframe);
+        const p = new URLSearchParams(hash.substring(1));
+        const token = p.get('access_token');
+        if (token) {
+          STATE.accessToken = token;
+          save('accessToken', token);
+          save('tokenTime', Date.now());
+          updateDriveBtn(true);
+          initApp();
+          return;
+        }
+      }
+    } catch(e) {}
+    clearTimeout(timer);
+    document.body.removeChild(iframe);
+    showScreen('auth');
+  };
+}
+
 function getRedirectUri() {
   return window.location.href.split('#')[0].split('?')[0];
 }
@@ -997,10 +1048,10 @@ window.addEventListener('load',()=>{
   const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<25200000);
   if(tokenValid){ STATE.accessToken=savedToken; updateDriveBtn(true); initApp(); }
   else if(savedClientId) {
-    // Token süresi dolmuş, sessizce yenile
+    // Token süresi dolmuş, önce sessiz iframe ile dene
     STATE.clientId=savedClientId;
     STATE.rootFolderName=savedFolder||'Tarifler';
-    startOAuth();
+    silentRefresh(savedClientId);
   }
   else { showScreen('auth'); }
 });
