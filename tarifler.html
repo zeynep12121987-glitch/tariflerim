@@ -775,8 +775,7 @@ function startOAuth() {
   const params=new URLSearchParams({
     client_id:clientId, redirect_uri:redirectUri,
     response_type:'token', scope:'https://www.googleapis.com/auth/drive.readonly',
-    include_granted_scopes:'true', prompt:'none',
-    login_hint:'zeynep12121987@gmail.com',
+    include_granted_scopes:'true', prompt:'select_account',
   });
   window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
 }
@@ -806,7 +805,7 @@ function silentRefresh(clientId) {
     // 5 saniye içinde cevap gelmezse normal giriş ekranına git
     document.body.removeChild(iframe);
     showScreen('auth');
-  }, 5000);
+  }, 8000);
 
   iframe.onload = () => {
     try {
