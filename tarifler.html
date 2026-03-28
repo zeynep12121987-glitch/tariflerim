@@ -775,7 +775,8 @@ function startOAuth() {
   const params=new URLSearchParams({
     client_id:clientId, redirect_uri:redirectUri,
     response_type:'token', scope:'https://www.googleapis.com/auth/drive.readonly',
-    include_granted_scopes:'true', prompt:'select_account',
+    include_granted_scopes:'true', prompt:'none',
+    login_hint:'zeynep12121987@gmail.com',
   });
   window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
 }
