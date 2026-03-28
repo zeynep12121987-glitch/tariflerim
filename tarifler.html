@@ -1044,7 +1044,7 @@ window.addEventListener('load',()=>{
   const savedTime=load('tokenTime');
   if(savedClientId){ STATE.clientId=savedClientId; document.getElementById('clientIdInput').value=savedClientId; }
   if(savedFolder){ STATE.rootFolderName=savedFolder; document.getElementById('rootFolderName').value=savedFolder; }
-  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<82800000);
+  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<604800000);
   if(tokenValid){ STATE.accessToken=savedToken; updateDriveBtn(true); initApp(); }
   else if(savedClientId) {
     // Token süresi dolmuş, direkt yenile
