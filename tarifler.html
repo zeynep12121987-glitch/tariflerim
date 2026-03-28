@@ -1044,13 +1044,13 @@ window.addEventListener('load',()=>{
   const savedTime=load('tokenTime');
   if(savedClientId){ STATE.clientId=savedClientId; document.getElementById('clientIdInput').value=savedClientId; }
   if(savedFolder){ STATE.rootFolderName=savedFolder; document.getElementById('rootFolderName').value=savedFolder; }
-  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<25200000);
+  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<82800000);
   if(tokenValid){ STATE.accessToken=savedToken; updateDriveBtn(true); initApp(); }
   else if(savedClientId) {
-    // Token süresi dolmuş, önce sessiz iframe ile dene
+    // Token süresi dolmuş, direkt yenile
     STATE.clientId=savedClientId;
     STATE.rootFolderName=savedFolder||'Tarifler';
-    silentRefresh(savedClientId);
+    startOAuth();
   }
   else { showScreen('auth'); }
 });
