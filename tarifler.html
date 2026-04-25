@@ -775,7 +775,7 @@ function startOAuth() {
   const params=new URLSearchParams({
     client_id:clientId, redirect_uri:redirectUri,
     response_type:'token', scope:'https://www.googleapis.com/auth/drive.readonly',
-    include_granted_scopes:'true', prompt:'none',
+    include_granted_scopes:'true', prompt:'select_account',
     login_hint:'zeynep12121987@gmail.com',
   });
   window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
@@ -1048,10 +1048,10 @@ window.addEventListener('load',()=>{
   const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<604800000);
   if(tokenValid){ STATE.accessToken=savedToken; updateDriveBtn(true); initApp(); }
   else if(savedClientId) {
-    // Token süresi dolmuş, direkt yenile
+    // Token süresi dolmuş, giriş ekranını göster
     STATE.clientId=savedClientId;
     STATE.rootFolderName=savedFolder||'Tarifler';
-    startOAuth();
+    showScreen('auth');
   }
   else { showScreen('auth'); }
 });
