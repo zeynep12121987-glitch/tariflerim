@@ -5,480 +5,134 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#ff6b35">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Tariflerim%22%2C%22short_name%22%3A%22Tariflerim%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23fff8f0%22%2C%22theme_color%22%3A%22%23ff6b35%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Ctext%20y%3D'.9em'%20font-size%3D'90'%3E%F0%9F%8D%BD%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
 <title>Tariflerim</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #fff8f0;
-  --white: #ffffff;
-  --orange: #ff6b35;
-  --orange2: #ff8c42;
-  --orange3: #ffb347;
-  --green: #4caf50;
-  --text: #2d1b00;
-  --muted: #9e7a5a;
-  --border: #ffe0c8;
-  --card-shadow: 0 4px 16px rgba(255,107,53,0.13);
-  --radius: 20px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-body {
-  font-family: 'Nunito', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-#app { max-width: 480px; margin: 0 auto; }
-
-/* ── HEADER ── */
-.header {
-  background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 50%, #ffb347 100%);
-  padding: 18px 16px 14px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 3px 20px rgba(255,107,53,0.35);
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.back-btn {
-  background: rgba(255,255,255,0.25);
-  border: none;
-  color: #fff;
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 22px;
-  transition: all 0.18s;
-  flex-shrink: 0;
-  line-height: 1;
-}
-.back-btn:active { background: rgba(255,255,255,0.45); transform: scale(0.9); }
-.back-btn.visible { display: flex; }
-
-.title-block { flex: 1; }
-
-.app-title {
-  font-family: 'Fredoka One', cursive;
-  font-size: 26px;
-  color: #fff;
-  line-height: 1;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.app-subtitle {
-  font-size: 11px;
-  color: rgba(255,255,255,0.85);
-  margin-top: 2px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.breadcrumb {
-  font-size: 11px;
-  color: rgba(255,255,255,0.85);
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.drive-btn {
-  background: rgba(255,255,255,0.2);
-  border: 1.5px solid rgba(255,255,255,0.5);
-  color: #fff;
-  padding: 7px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.18s;
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-family: 'Nunito', sans-serif;
-}
-.drive-btn:active { transform: scale(0.94); background: rgba(255,255,255,0.35); }
-.drive-btn.connected { background: rgba(76,175,80,0.3); border-color: rgba(255,255,255,0.8); }
-
-/* ── SEARCH BAR ── */
-.search-wrap {
-  position: relative;
-}
-
-.search-input {
-  width: 100%;
-  background: rgba(255,255,255,0.95);
-  border: none;
-  border-radius: 14px;
-  padding: 11px 42px 11px 16px;
-  font-size: 14px;
-  font-family: 'Nunito', sans-serif;
-  color: var(--text);
-  outline: none;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-.search-input::placeholder { color: #c4956a; }
-
-.search-icon {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 18px;
-  pointer-events: none;
-}
-
-.search-clear {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--orange);
-  border: none;
-  color: #fff;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 13px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-}
-.search-clear.visible { display: flex; }
-
-/* ── SCREENS ── */
-.screen { display: none; padding: 16px; animation: fadeUp 0.25s ease; }
-.screen.active { display: block; }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── SEARCH RESULTS ── */
-.search-results {
-  display: none;
-  padding: 16px;
-  animation: fadeUp 0.25s ease;
-}
-.search-results.active { display: block; }
-
-.search-result-label {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  padding: 0 2px;
-}
-
-/* ── AUTH ── */
-.auth-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  padding: 28px 20px;
-  text-align: center;
-  margin-top: 20px;
-  box-shadow: var(--card-shadow);
-  border: 1.5px solid var(--border);
-}
-.auth-icon { font-size: 52px; margin-bottom: 14px; }
-.auth-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 22px; color: var(--orange); margin-bottom: 8px; }
-.auth-desc { color: var(--muted); font-size: 13px; line-height: 1.65; margin-bottom: 22px; }
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--orange), var(--orange2));
-  color: #fff;
-  border: none;
-  padding: 14px 28px;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  width: 100%;
-  font-family: 'Nunito', sans-serif;
-  box-shadow: 0 4px 16px rgba(255,107,53,0.4);
-  transition: all 0.18s;
-}
-.btn-primary:active { transform: scale(0.97); opacity: 0.9; }
-
-.setup-steps { margin-top: 22px; text-align: left; }
-.step { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.step:last-child { border-bottom: none; }
-.step-num { background: linear-gradient(135deg, var(--orange), var(--orange2)); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
-.step-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
-.step-text strong { color: var(--text); }
-
-.setup-card {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 14px;
-  box-shadow: var(--card-shadow);
-}
-.setup-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 7px; font-weight: 700; }
-.setup-input {
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 11px 14px;
-  color: var(--text);
-  font-size: 14px;
-  width: 100%;
-  font-family: 'Nunito', sans-serif;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.setup-input:focus { border-color: var(--orange); }
-.setup-input::placeholder { color: var(--muted); }
-.setup-hint { font-size: 11px; color: var(--muted); margin-top: 7px; line-height: 1.5; }
-
-/* ── SECTION LABEL ── */
-.section-label {
-  font-family: 'Nunito', sans-serif; font-weight: 800;
-  font-size: 16px;
-  color: var(--orange);
-  margin-bottom: 12px;
-  padding-left: 2px;
-}
-
-/* ── CATEGORIES GRID ── */
-.categories-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.cat-card {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 14px 16px;
-  cursor: pointer;
-  transition: all 0.18s;
-  position: relative;
-  overflow: hidden;
-  min-height: 130px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: var(--card-shadow);
-}
-
-.cat-card:active { transform: scale(0.96) translateY(2px); box-shadow: 0 2px 8px rgba(255,107,53,0.2); border-color: var(--orange); }
-
-.cat-emoji {
-  font-size: 40px;
-  margin-bottom: 10px;
-  display: block;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
-}
-
-.cat-name {
-  font-family: 'Nunito', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1.2;
-}
-
-.cat-count {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 3px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.cat-arrow {
-  position: absolute;
-  bottom: 12px;
-  right: 14px;
-  color: var(--orange);
-  font-size: 20px;
-  opacity: 0.5;
-}
-
-/* ── QUICK LINKS ── */
-.quick-links { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
-
-.ql-divider {
-  display: flex; align-items: center; gap: 10px; margin: 8px 0 4px;
-}
-.ql-divider-line { flex: 1; height: 1.5px; background: var(--border); border-radius: 2px; }
-.ql-divider-text {
-  font-size: 10px; color: var(--muted); text-transform: uppercase;
-  letter-spacing: 1px; font-weight: 800; white-space: nowrap;
-}
-
-.quick-link-card {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.18s;
-  box-shadow: var(--card-shadow);
-}
-.quick-link-card:active { transform: scale(0.97); border-color: var(--orange); }
-
-.ql-icon {
-  width: 52px; height: 52px;
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; overflow: hidden;
-  font-size: 28px;
-}
-.ql-icon.supercook { background: linear-gradient(135deg, #ff6b35, #ffb347); }
-.ql-icon.turkomp { background: #fff; border: 1px solid var(--border); padding: 6px; }
-.ql-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
-
-.ql-info { flex: 1; min-width: 0; }
-.ql-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; color: var(--text); margin-bottom: 3px; }
-.ql-desc { font-size: 11px; color: var(--muted); line-height: 1.4; font-weight: 600; }
-.ql-arrow { color: var(--orange); font-size: 20px; opacity: 0.7; flex-shrink: 0; }
-
-/* ── FILE LIST ── */
-.file-list { display: flex; flex-direction: column; gap: 8px; }
-
-.file-item {
-  background: var(--white);
-  border: 1.5px solid var(--border);
-  border-radius: 16px;
-  padding: 12px 14px;
-  display: flex; align-items: center; gap: 12px;
-  cursor: pointer;
-  transition: all 0.18s;
-  box-shadow: 0 2px 10px rgba(255,107,53,0.08);
-}
-.file-item:active { transform: scale(0.97); border-color: var(--orange); }
-
-.file-icon-wrap {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; flex-shrink: 0;
-}
-.file-icon-wrap.video { background: #fff3e0; }
-.file-icon-wrap.image { background: #e8f5e9; }
-.file-icon-wrap.pdf { background: #fce4ec; }
-.file-icon-wrap.text { background: #e3f2fd; }
-.file-icon-wrap.folder { background: #fff8e1; }
-
-.file-info { flex: 1; min-width: 0; }
-.file-name { font-size: 14px; font-weight: 700; font-family: 'Nunito', sans-serif; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.file-meta { font-size: 10px; color: var(--muted); margin-top: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
-.file-chevron { color: var(--orange); font-size: 20px; flex-shrink: 0; opacity: 0.6; }
-
-/* ── VIEWER ── */
-.viewer-container { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; box-shadow: var(--card-shadow); }
-.viewer-video { width: 100%; background: #000; display: block; max-height: 56vw; }
-.viewer-image { width: 100%; display: block; border-radius: var(--radius); }
-.viewer-pdf { width: 100%; height: 72vh; border: none; display: block; }
-.viewer-text { padding: 20px; font-size: 14px; line-height: 1.85; color: var(--text); white-space: pre-wrap; word-break: break-word; }
-.viewer-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 20px; color: var(--orange); margin-bottom: 4px; }
-.viewer-meta { font-size: 11px; color: var(--muted); margin-bottom: 14px; font-weight: 700; text-transform: uppercase; }
-
-/* ── LOADING ── */
-.loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 70px 20px; gap: 16px; }
-.spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin 0.75s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { color: var(--muted); font-size: 13px; font-weight: 700; }
-
-/* ── MSG BOX ── */
-.msg-box { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 30px 18px; text-align: center; margin-top: 16px; box-shadow: var(--card-shadow); }
-.msg-icon { font-size: 40px; margin-bottom: 10px; }
-.msg-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 18px; color: var(--text); margin-bottom: 6px; }
-.msg-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
-.btn-secondary {
-  background: transparent; border: 2px solid var(--orange); color: var(--orange);
-  padding: 11px 22px; border-radius: 12px; font-size: 13px; font-weight: 800;
-  cursor: pointer; margin-top: 14px; font-family: 'Nunito', sans-serif; transition: all 0.18s;
-}
-.btn-secondary:active { background: var(--orange); color: #fff; }
-
-/* ── TOAST ── */
-.toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: linear-gradient(135deg, var(--orange), var(--orange2));
-  color: #fff; padding: 11px 24px; border-radius: 20px;
-  font-size: 13px; font-weight: 800;
-  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
-  z-index: 999; white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(255,107,53,0.45);
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-/* ── NO RESULTS ── */
-.no-results {
-  text-align: center; padding: 40px 20px;
-  background: var(--white); border-radius: var(--radius);
-  border: 1.5px solid var(--border);
-}
-.no-results-icon { font-size: 48px; margin-bottom: 12px; }
-.no-results-text { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--muted); }
-
-.safe-bottom { height: 32px; }
+:root{--bg:#fff8f0;--white:#ffffff;--orange:#ff6b35;--orange2:#ff8c42;--text:#2d1b00;--muted:#9e7a5a;--border:#ffe0c8;--shadow:0 4px 16px rgba(255,107,53,0.13);--r:20px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:"Nunito",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+#app{max-width:480px;margin:0 auto}
+.header{background:linear-gradient(135deg,#ff6b35,#ff8c42,#ffb347);padding:18px 16px 14px;position:sticky;top:0;z-index:100;box-shadow:0 3px 20px rgba(255,107,53,0.35)}
+.header-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.back-btn{background:rgba(255,255,255,0.25);border:none;color:#fff;width:36px;height:36px;border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:22px;flex-shrink:0}
+.back-btn.visible{display:flex}
+.title-block{flex:1}
+.app-title{font-size:26px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+.breadcrumb{font-size:11px;color:rgba(255,255,255,0.85);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drive-btn{background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.5);color:#fff;padding:7px 12px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0;font-family:"Nunito",sans-serif}
+.drive-btn.connected{background:rgba(76,175,80,0.3)}
+.search-wrap{position:relative}
+.search-input{width:100%;background:rgba(255,255,255,0.95);border:none;border-radius:14px;padding:11px 42px 11px 16px;font-size:14px;font-family:"Nunito",sans-serif;color:var(--text);outline:none;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.search-input::placeholder{color:#c4956a}
+.search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none}
+.search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:var(--orange);border:none;color:#fff;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:13px;display:none;align-items:center;justify-content:center;font-weight:700}
+.search-clear.visible{display:flex}
+.screen{display:none;padding:16px;animation:fadeUp 0.25s ease}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.search-results{display:none;padding:16px}
+.search-results.active{display:block}
+.search-result-label{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.auth-card{background:var(--white);border-radius:var(--r);padding:28px 20px;text-align:center;margin-top:20px;box-shadow:var(--shadow);border:1.5px solid var(--border)}
+.auth-icon{font-size:52px;margin-bottom:14px}
+.auth-title{font-size:22px;font-weight:800;color:var(--orange);margin-bottom:8px}
+.auth-desc{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:22px}
+.btn-primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;padding:14px 28px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;width:100%;font-family:"Nunito",sans-serif;box-shadow:0 4px 16px rgba(255,107,53,0.4);transition:all 0.18s}
+.btn-primary:active{transform:scale(0.97)}
+.setup-steps{margin-top:22px;text-align:left}
+.step{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-num{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px}
+.step-text{font-size:13px;color:var(--muted);line-height:1.55}
+.step-text strong{color:var(--text)}
+.setup-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.setup-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:7px;font-weight:700}
+.setup-input{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;color:var(--text);font-size:14px;width:100%;font-family:"Nunito",sans-serif;outline:none;transition:border-color 0.2s}
+.setup-input:focus{border-color:var(--orange)}
+.setup-input::placeholder{color:var(--muted)}
+.section-label{font-size:16px;font-weight:800;color:var(--orange);margin-bottom:12px}
+.categories-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cat-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 14px 16px;cursor:pointer;transition:all 0.18s;position:relative;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow)}
+.cat-card:active{transform:scale(0.96);border-color:var(--orange)}
+.cat-emoji{font-size:40px;margin-bottom:10px;display:block}
+.cat-name{font-size:15px;font-weight:800;color:var(--text);line-height:1.2;font-family:"Nunito",sans-serif}
+.cat-count{font-size:10px;color:var(--muted);margin-top:3px;font-weight:700;text-transform:uppercase}
+.cat-arrow{position:absolute;bottom:12px;right:14px;color:var(--orange);font-size:20px;opacity:0.5}
+.quick-links{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+.ql-divider{display:flex;align-items:center;gap:10px;margin:8px 0 4px}
+.ql-divider-line{flex:1;height:1.5px;background:var(--border);border-radius:2px}
+.ql-divider-text{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:800;white-space:nowrap}
+.quick-link-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;text-decoration:none;transition:all 0.18s;box-shadow:var(--shadow)}
+.quick-link-card:active{transform:scale(0.97);border-color:var(--orange)}
+.ql-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:28px}
+.ql-icon.supercook{background:linear-gradient(135deg,#ff6b35,#ffb347)}
+.ql-icon.turkomp{background:#fff;border:1px solid var(--border);padding:6px}
+.ql-icon img{width:100%;height:100%;object-fit:contain;border-radius:8px}
+.ql-info{flex:1;min-width:0}
+.ql-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.ql-desc{font-size:11px;color:var(--muted);line-height:1.4;font-weight:600}
+.ql-arrow{color:var(--orange);font-size:20px;opacity:0.7;flex-shrink:0}
+.file-list{display:flex;flex-direction:column;gap:8px}
+.file-item{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.18s;box-shadow:0 2px 10px rgba(255,107,53,0.08)}
+.file-item:active{transform:scale(0.97);border-color:var(--orange)}
+.file-icon-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.file-icon-wrap.video{background:#fff3e0}
+.file-icon-wrap.image{background:#e8f5e9}
+.file-icon-wrap.pdf{background:#fce4ec}
+.file-icon-wrap.text{background:#e3f2fd}
+.file-icon-wrap.folder{background:#fff8e1}
+.file-info{flex:1;min-width:0}
+.file-name{font-size:14px;font-weight:700;font-family:"Nunito",sans-serif;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-meta{font-size:10px;color:var(--muted);margin-top:2px;font-weight:700;text-transform:uppercase}
+.file-chevron{color:var(--orange);font-size:20px;flex-shrink:0;opacity:0.6}
+.viewer-container{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow)}
+.viewer-video{width:100%;background:#000;display:block;max-height:56vw}
+.viewer-image{width:100%;display:block;border-radius:var(--r)}
+.viewer-pdf{width:100%;height:72vh;border:none;display:block}
+.viewer-text{padding:20px;font-size:14px;line-height:1.85;color:var(--text);white-space:pre-wrap;word-break:break-word}
+.viewer-title{font-size:20px;font-weight:800;color:var(--orange);margin-bottom:4px;font-family:"Nunito",sans-serif}
+.viewer-meta{font-size:11px;color:var(--muted);margin-bottom:14px;font-weight:700;text-transform:uppercase}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 20px;gap:16px}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin 0.75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:var(--muted);font-size:13px;font-weight:700}
+.msg-box{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:30px 18px;text-align:center;margin-top:16px;box-shadow:var(--shadow)}
+.msg-icon{font-size:40px;margin-bottom:10px}
+.msg-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px}
+.msg-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.btn-secondary{background:transparent;border:2px solid var(--orange);color:var(--orange);padding:11px 22px;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;margin-top:14px;font-family:"Nunito",sans-serif;transition:all 0.18s}
+.btn-secondary:active{background:var(--orange);color:#fff}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;padding:11px 24px;border-radius:20px;font-size:13px;font-weight:800;transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1);z-index:999;white-space:nowrap;box-shadow:0 4px 20px rgba(255,107,53,0.45)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.no-results{text-align:center;padding:40px 20px;background:var(--white);border-radius:var(--r);border:1.5px solid var(--border)}
+.no-results-icon{font-size:48px;margin-bottom:12px}
+.no-results-text{font-size:18px;font-weight:800;color:var(--muted)}
+.safe-bottom{height:32px}
 </style>
 </head>
 <body>
 <div id="app">
-
-<!-- HEADER -->
 <div class="header">
   <div class="header-top">
-    <button class="back-btn" id="backBtn" onclick="goBack()">‹</button>
+    <button class="back-btn" id="backBtn" onclick="goBack()">&#8249;</button>
     <div class="title-block">
-      <div class="app-title">🍽 Tariflerim</div>
+      <div class="app-title">&#127869; Tariflerim</div>
       <div class="breadcrumb" id="breadcrumb">Lezzetli Tarifler</div>
     </div>
     <button class="drive-btn" id="driveBtn" onclick="handleDriveBtn()">
-      <span>▲</span><span id="driveBtnText">Drive</span>
+      <span>&#9650;</span><span id="driveBtnText">Drive</span>
     </button>
   </div>
-  <div class="search-wrap" id="searchWrap">
-    <input class="search-input" id="searchInput" type="text"
-      placeholder="Tarif Ara... Örn: Makarna, Kek"
-      oninput="handleSearch(this.value)"
-      autocomplete="off" autocorrect="off" spellcheck="false">
-    <span class="search-icon" id="searchIcon">🔍</span>
-    <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+  <div class="search-wrap">
+    <input class="search-input" id="searchInput" type="text" placeholder="Tarif Ara... Örn: Makarna, Kek" oninput="handleSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
+    <span class="search-icon" id="searchIcon">&#128269;</span>
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">&#x2715;</button>
   </div>
 </div>
 
-<!-- AUTH SCREEN -->
 <div class="screen active" id="screen-auth">
   <div class="auth-card">
-    <div class="auth-icon">🔑</div>
+    <div class="auth-icon">&#128273;</div>
     <div class="auth-title">Google Drive'a Bağlan</div>
     <div class="auth-desc">Tariflerini Drive'dan okumak için bir kez Google hesabınla giriş yap. Dosyalar telefonunda yer kaplamaz.</div>
     <button class="btn-primary" onclick="startOAuth()">Google ile Giriş Yap</button>
@@ -493,52 +147,22 @@ body {
     <div style="margin-bottom:12px">
       <div class="setup-label">Ana Klasör Adı</div>
       <input class="setup-input" id="rootFolderName" type="text" placeholder="Tarifler" value="Tarifler">
-      <div class="setup-hint">Drive'daki ana klasörün tam adı (büyük/küçük harf önemli)</div>
     </div>
     <div style="margin-bottom:12px">
       <div class="setup-label">Google Client ID</div>
       <input class="setup-input" id="clientIdInput" type="text" placeholder="xxxx.apps.googleusercontent.com" value="1050517528300-urfn3ag03ojarbpgagphpcfl87ci48pr.apps.googleusercontent.com">
-      <div class="setup-hint">⚙️ <a href="#" onclick="showClientIdHelp()" style="color:var(--orange)">Client ID nasıl alınır?</a></div>
-    </div>
-    <div id="redirectUriBox" style="display:none; margin-top:12px; padding:12px; background:var(--bg); border-radius:12px; border:1.5px solid var(--orange)">
-      <div style="font-size:10px; color:var(--orange); font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px">⚠️ Google Cloud'a Bu Adresi Ekle</div>
-      <div id="redirectUriText" style="font-size:11px; color:var(--text); word-break:break-all; font-family:monospace; padding:8px; background:#fff; border-radius:8px; border:1px solid var(--border)"></div>
-      <div style="font-size:11px; color:var(--muted); margin-top:8px; line-height:1.5">Hem <strong>JavaScript origins</strong> hem <strong>Redirect URIs</strong> alanına ekle → Kaydet → Tekrar bağlan</div>
-      <button onclick="copyRedirectUri()" style="margin-top:10px; width:100%; padding:10px; background:var(--orange); border:none; color:#fff; border-radius:10px; cursor:pointer; font-size:13px; font-family:Nunito,sans-serif; font-weight:800">📋 Adresi Kopyala</button>
     </div>
     <button class="btn-primary" onclick="saveAndConnect()" style="margin-top:12px">Kaydet ve Bağlan</button>
   </div>
   <div class="safe-bottom"></div>
 </div>
 
-<!-- HELP SCREEN -->
-<div class="screen" id="screen-help">
-  <div class="setup-card">
-    <div class="setup-label" style="color:var(--orange)">Client ID Nasıl Alınır?</div>
-    <div style="font-size:13px; color:var(--muted); line-height:1.8">
-      <div class="step"><div class="step-num">1</div><div class="step-text">Tarayıcında <strong style="color:var(--text)">console.cloud.google.com</strong> aç</div></div>
-      <div class="step"><div class="step-num">2</div><div class="step-text"><strong style="color:var(--text)">Yeni Proje</strong> oluştur</div></div>
-      <div class="step"><div class="step-num">3</div><div class="step-text">API Kitaplığı → <strong style="color:var(--text)">Google Drive API</strong> → Etkinleştir</div></div>
-      <div class="step"><div class="step-num">4</div><div class="step-text">OAuth onay ekranı → Harici → Oluştur</div></div>
-      <div class="step"><div class="step-num">5</div><div class="step-text">Kimlik Bilgileri → <strong style="color:var(--text)">OAuth 2.0 → Web Uygulaması</strong></div></div>
-      <div class="step"><div class="step-num">6</div><div class="step-text">Client ID'yi kopyala → buraya yapıştır</div></div>
-    </div>
-  </div>
-  <button class="btn-secondary" onclick="showScreen('auth')" style="width:100%">← Geri Dön</button>
-  <div class="safe-bottom"></div>
-</div>
-
-<!-- LOADING -->
 <div class="screen" id="screen-loading">
-  <div class="loading">
-    <div class="spinner"></div>
-    <div class="loading-text" id="loadingText">Yükleniyor...</div>
-  </div>
+  <div class="loading"><div class="spinner"></div><div class="loading-text" id="loadingText">Yükleniyor...</div></div>
 </div>
 
-<!-- CATEGORIES -->
 <div class="screen" id="screen-categories">
-  <div class="section-label">📂 Kategoriler</div>
+  <div class="section-label">&#128194; Kategoriler</div>
   <div class="categories-grid" id="categoriesGrid"></div>
   <div class="ql-divider" style="margin-top:22px">
     <div class="ql-divider-line"></div>
@@ -547,12 +171,12 @@ body {
   </div>
   <div class="quick-links">
     <a class="quick-link-card" href="https://www.supercook.com" target="_blank">
-      <div class="ql-icon supercook">🍳</div>
+      <div class="ql-icon supercook">&#127859;</div>
       <div class="ql-info">
         <div class="ql-title">Yemeğini & Tatlını Yap</div>
         <div class="ql-desc">Elindeki malzemelere göre tarif bul — supercook.com</div>
       </div>
-      <div class="ql-arrow">↗</div>
+      <div class="ql-arrow">&#8599;</div>
     </a>
     <a class="quick-link-card" href="https://turkomp.tarimorman.gov.tr/main" target="_blank">
       <div class="ql-icon turkomp">
@@ -562,499 +186,69 @@ body {
         <div class="ql-title">Ulusal Gıda Kompozisyon</div>
         <div class="ql-desc">TürKomp — Türkiye Besin Veri Tabanı</div>
       </div>
-      <div class="ql-arrow">↗</div>
+      <div class="ql-arrow">&#8599;</div>
     </a>
   </div>
   <div class="safe-bottom"></div>
 </div>
 
-<!-- FILE LIST -->
 <div class="screen" id="screen-files">
   <div class="file-list" id="fileList"></div>
   <div class="safe-bottom"></div>
 </div>
 
-<!-- SEARCH RESULTS -->
 <div class="search-results" id="searchResults">
   <div class="search-result-label" id="searchResultLabel"></div>
   <div class="file-list" id="searchResultList"></div>
   <div class="safe-bottom"></div>
 </div>
 
-<!-- VIEWER -->
 <div class="screen" id="screen-viewer">
   <div class="viewer-title" id="viewerTitle"></div>
   <div class="viewer-meta" id="viewerMeta"></div>
   <div class="viewer-container" id="viewerContent"></div>
   <div class="safe-bottom"></div>
 </div>
-
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-const STATE = {
-  accessToken: null, rootFolderId: null, clientId: null,
-  rootFolderName: 'Tarifler', stack: [], currentFolderId: null,
-  allFiles: [], // tüm dosyalar arama için
-  allFilesLoaded: false,
-};
-
-const CAT_EMOJIS = {
-  'ekmek':'🍞','yöresel':'🫕','yoresel':'🫕','makarna':'🍝','mantı':'🥟','manti':'🥟',
-  'pizza':'🍕','tatlı':'🍰','tatli':'🍰','dondurma':'🍦','çorba':'🍲','corba':'🍲',
-  'salata':'🥗','et':'🥩','tavuk':'🍗','balık':'🐟','balik':'🐟','börek':'🥐','borek':'🥐',
-  'yemek':'🍜','sebze':'🥦','meyve':'🍎','kahvaltı':'🍳','kahvalti':'🍳',
-  'pilav':'🍚','kek':'🎂','kurabiye':'🍪','hamur':'🥐','pide':'🫓','hamurişi':'🥐',
-};
-
-function getCatEmoji(name) {
-  const l = name.toLowerCase();
-  for (const [k,v] of Object.entries(CAT_EMOJIS)) { if (l.includes(k)) return v; }
-  return '📁';
-}
-
-function getFileIcon(name, mime) {
-  if (mime === 'application/vnd.google-apps.folder') return {icon:'📂',cls:'folder'};
-  const ext = name.split('.').pop().toLowerCase();
-  if (['mp4','mov','avi','mkv','webm'].includes(ext)||mime?.includes('video')) return {icon:'🎬',cls:'video'};
-  if (['jpg','jpeg','png','gif','webp'].includes(ext)||mime?.includes('image')) return {icon:'🖼',cls:'image'};
-  if (ext==='pdf'||mime?.includes('pdf')) return {icon:'📄',cls:'pdf'};
-  if (['txt','md'].includes(ext)||mime?.includes('text')) return {icon:'📝',cls:'text'};
-  return {icon:'📎',cls:'text'};
-}
-
-function save(k,v) { try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
-function load(k) { try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;} }
-
-function showScreen(n) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('searchResults').classList.remove('active');
-  document.getElementById('screen-'+n).classList.add('active');
-}
-
-function showToast(msg,dur=2500) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),dur);
-}
-
-function updateHeader() {
-  const btn=document.getElementById('backBtn');
-  const bc=document.getElementById('breadcrumb');
-  if (STATE.stack.length>0) {
-    btn.classList.add('visible');
-    bc.textContent=STATE.stack.map(s=>s.name).join(' › ');
-  } else {
-    btn.classList.remove('visible');
-    bc.textContent='Lezzetli Tarifler';
-  }
-}
-
-function goBack() {
-  // Arama açıksa önce aramayı kapat
-  if (document.getElementById('searchResults').classList.contains('active')) {
-    clearSearch(); return;
-  }
-  STATE.stack.pop(); updateHeader();
-  if (STATE.stack.length===0) { loadCategories(); }
-  else {
-    const p=STATE.stack[STATE.stack.length-1];
-    STATE.currentFolderId=p.folderId;
-    loadFiles(p.folderId,p.name,true);
-  }
-}
-
-// ── SEARCH ──────────────────────────────────────────────
-let searchTimeout = null;
-
-function handleSearch(val) {
-  const clear = document.getElementById('searchClear');
-  const icon = document.getElementById('searchIcon');
-  if (val.length > 0) {
-    clear.classList.add('visible'); icon.style.display='none';
-  } else {
-    clear.classList.remove('visible'); icon.style.display='';
-    hideSearchResults(); return;
-  }
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(()=>doSearch(val), 300);
-}
-
-function clearSearch() {
-  document.getElementById('searchInput').value='';
-  document.getElementById('searchClear').classList.remove('visible');
-  document.getElementById('searchIcon').style.display='';
-  hideSearchResults();
-}
-
-function hideSearchResults() {
-  document.getElementById('searchResults').classList.remove('active');
-  // son ekranı geri göster
-  const lastScreen = STATE.stack.length > 0 ? 'files' : 'categories';
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-'+lastScreen).classList.add('active');
-}
-
-async function doSearch(query) {
-  if (!STATE.accessToken) return;
-  const q = query.toLowerCase().trim();
-  if (!q) return;
-
-  // Drive'da dosya ara
-  const searchQ = `name contains '${q}' and trashed=false and '${STATE.rootFolderId}' in parents or name contains '${q}' and trashed=false`;
-  const driveQ = `name contains '${q}' and trashed=false`;
-  
-  try {
-    const data = await driveRequest(`files?q=${encodeURIComponent(driveQ)}&fields=files(id,name,mimeType,size)&orderBy=name&pageSize=30`);
-    const files = (data?.files||[]).filter(f=>f.mimeType!=='application/vnd.google-apps.folder');
-    
-    const label = document.getElementById('searchResultLabel');
-    const list = document.getElementById('searchResultList');
-    
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById('searchResults').classList.add('active');
-    
-    if (files.length===0) {
-      label.textContent = '"'+query+'" için sonuç bulunamadı';
-      list.innerHTML='<div class="no-results"><div class="no-results-icon">🔍</div><div class="no-results-text">Sonuç bulunamadı</div></div>';
-      return;
-    }
-    
-    label.textContent = files.length+' sonuç bulundu: "'+query+'"';
-    list.innerHTML='';
-    files.forEach(item=>{
-      const {icon,cls}=getFileIcon(item.name,item.mimeType);
-      const div=document.createElement('div');
-      div.className='file-item';
-      div.innerHTML=`
-        <div class="file-icon-wrap ${cls}">${icon}</div>
-        <div class="file-info">
-          <div class="file-name">${item.name}</div>
-          <div class="file-meta">${formatSize(item.size)}</div>
-        </div>
-        <div class="file-chevron">›</div>`;
-      div.addEventListener('click',()=>{
-        clearSearch();
-        openFile(item);
-      });
-      list.appendChild(div);
-    });
-  } catch(e) { console.error(e); }
-}
-
-// ── AUTH ────────────────────────────────────────────────
-function showClientIdHelp() { showScreen('help'); }
-
-function copyRedirectUri() {
-  const uri=getRedirectUri();
-  navigator.clipboard.writeText(uri).then(()=>showToast('✅ Kopyalandı!')).catch(()=>showToast(uri));
-}
-
-function showRedirectUriBox() {
-  const box=document.getElementById('redirectUriBox');
-  const txt=document.getElementById('redirectUriText');
-  if(box&&txt){ txt.textContent=getRedirectUri(); box.style.display='block'; }
-}
-
-function saveAndConnect() {
-  const clientId=document.getElementById('clientIdInput').value.trim();
-  const folderName=document.getElementById('rootFolderName').value.trim()||'Tarifler';
-  if(!clientId){showToast('⚠️ Client ID gerekli');return;}
-  STATE.clientId=clientId; STATE.rootFolderName=folderName;
-  save('clientId',clientId); save('rootFolderName',folderName);
-  showRedirectUriBox(); startOAuth();
-}
-
-function startOAuth() {
-  const clientId=STATE.clientId||load('clientId');
-  if(!clientId){showToast('⚠️ Önce Client ID gir');return;}
-  STATE.clientId=clientId;
-  const redirectUri=getRedirectUri();
-  save('redirectUri',redirectUri);
-  const params=new URLSearchParams({
-    client_id:clientId, redirect_uri:redirectUri,
-    response_type:'token', scope:'https://www.googleapis.com/auth/drive.readonly',
-    include_granted_scopes:'true', prompt:'select_account',
-    login_hint:'zeynep12121987@gmail.com',
-  });
-  window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;
-}
-
-function silentRefresh(clientId) {
-  // Gizli iframe ile token yenile - ekran kırpışması olmaz
-  showScreen('loading');
-  document.getElementById('loadingText').textContent = 'Bağlanıyor...';
-  
-  const redirectUri = getRedirectUri();
-  const params = new URLSearchParams({
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    response_type: 'token',
-    scope: 'https://www.googleapis.com/auth/drive.readonly',
-    prompt: 'none',
-    login_hint: 'zeynep12121987@gmail.com',
-  });
-
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
-  document.body.appendChild(iframe);
-
-  // iframe'den mesaj dinle
-  const timer = setTimeout(() => {
-    // 5 saniye içinde cevap gelmezse normal giriş ekranına git
-    document.body.removeChild(iframe);
-    showScreen('auth');
-  }, 8000);
-
-  iframe.onload = () => {
-    try {
-      const hash = iframe.contentWindow.location.hash;
-      if (hash && hash.includes('access_token')) {
-        clearTimeout(timer);
-        document.body.removeChild(iframe);
-        const p = new URLSearchParams(hash.substring(1));
-        const token = p.get('access_token');
-        if (token) {
-          STATE.accessToken = token;
-          save('accessToken', token);
-          save('tokenTime', Date.now());
-          updateDriveBtn(true);
-          initApp();
-          return;
-        }
-      }
-    } catch(e) {}
-    clearTimeout(timer);
-    document.body.removeChild(iframe);
-    showScreen('auth');
-  };
-}
-
-function getRedirectUri() {
-  return window.location.href.split('#')[0].split('?')[0];
-}
-
-function handleOAuthCallback() {
-  const hash=window.location.hash.substring(1);
-  const params=new URLSearchParams(hash);
-  const token=params.get('access_token');
-  if(token){
-    STATE.accessToken=token; save('accessToken',token); save('tokenTime',Date.now());
-    window.history.replaceState({},'',window.location.pathname);
-    updateDriveBtn(true); showToast('✅ Drive bağlandı!'); initApp();
-  }
-}
-
-function handleDriveBtn() {
-  if(STATE.accessToken){
-    STATE.accessToken=null; save('accessToken',null);
-    updateDriveBtn(false); showScreen('auth'); showToast('Çıkış yapıldı');
-  } else { showScreen('auth'); }
-}
-
-function updateDriveBtn(connected) {
-  const btn=document.getElementById('driveBtn');
-  const txt=document.getElementById('driveBtnText');
-  if(connected){ btn.classList.add('connected'); txt.textContent='Bağlı ✓'; }
-  else { btn.classList.remove('connected'); txt.textContent='Drive'; }
-}
-
-// ── DRIVE API ───────────────────────────────────────────
-async function driveRequest(endpoint) {
-  const res=await fetch('https://www.googleapis.com/drive/v3/'+endpoint,{
-    headers:{Authorization:'Bearer '+STATE.accessToken}
-  });
-  if(!res.ok){
-    if(res.status===401){ STATE.accessToken=null; showScreen('auth'); showToast('⚠️ Oturum doldu, tekrar giriş yap'); return null; }
-    throw new Error('Drive API hatası: '+res.status);
-  }
-  return res.json();
-}
-
-async function findFolder(name,parentId=null) {
-  let q=`name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
-  if(parentId) q+=` and '${parentId}' in parents`;
-  const data=await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name)`);
-  return data?.files?.[0]||null;
-}
-
-async function listFolder(folderId) {
-  const q=`'${folderId}' in parents and trashed=false`;
-  const data=await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name,mimeType,size,modifiedTime)&orderBy=name`);
-  return data?.files||[];
-}
-
-// ── INIT ────────────────────────────────────────────────
-async function initApp() {
-  showScreen('loading');
-  document.getElementById('loadingText').textContent='Tarifler klasörü aranıyor...';
-  try {
-    const folderName=STATE.rootFolderName||load('rootFolderName')||'Tarifler';
-    const folder=await findFolder(folderName);
-    if(!folder){ showMsg('Klasör Bulunamadı',`Drive'da "${folderName}" klasörü bulunamadı.`); return; }
-    STATE.rootFolderId=folder.id; STATE.stack=[]; updateHeader();
-    await loadCategories();
-  } catch(e){ showMsg('Hata',e.message); }
-}
-
-async function loadCategories() {
-  showScreen('loading');
-  document.getElementById('loadingText').textContent='Kategoriler yükleniyor...';
-  try {
-    const items=await listFolder(STATE.rootFolderId);
-    if(!items) return;
-    const grid=document.getElementById('categoriesGrid');
-    grid.innerHTML='';
-    if(items.length===0){
-      grid.innerHTML='<div class="msg-box" style="grid-column:1/-1"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';
-      showScreen('categories'); return;
-    }
-    items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));
-    items.forEach(item=>{
-      const isFolder=item.mimeType==='application/vnd.google-apps.folder';
-      const emoji=isFolder?getCatEmoji(item.name):getFileIcon(item.name,item.mimeType).icon;
-      const card=document.createElement('div');
-      card.className='cat-card';
-      card.innerHTML=`
-        <div>
-          <span class="cat-emoji">${emoji}</span>
-          <div class="cat-name">${item.name}</div>
-          <div class="cat-count">${isFolder?'Klasör':'Dosya'}</div>
-        </div>
-        <div class="cat-arrow">›</div>`;
-      card.addEventListener('click',()=>{
-        if(isFolder){ STATE.stack=[{name:item.name,folderId:item.id}]; updateHeader(); loadFiles(item.id,item.name); }
-        else { STATE.stack=[]; openFile(item); }
-      });
-      grid.appendChild(card);
-    });
-    showScreen('categories');
-  } catch(e){ showMsg('Hata',e.message); }
-}
-
-async function loadFiles(folderId,folderName,isBack=false) {
-  showScreen('loading');
-  document.getElementById('loadingText').textContent=`"${folderName}" yükleniyor...`;
-  STATE.currentFolderId=folderId;
-  try {
-    const items=await listFolder(folderId);
-    if(!items) return;
-    const list=document.getElementById('fileList');
-    list.innerHTML='';
-    if(items.length===0){
-      list.innerHTML='<div class="msg-box"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';
-      showScreen('files'); return;
-    }
-    items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));
-    items.forEach(item=>{
-      const isFolder=item.mimeType==='application/vnd.google-apps.folder';
-      const {icon,cls}=getFileIcon(item.name,item.mimeType);
-      const dIcon=isFolder?'📂':icon; const dCls=isFolder?'folder':cls;
-      const div=document.createElement('div');
-      div.className='file-item';
-      div.innerHTML=`
-        <div class="file-icon-wrap ${dCls}">${dIcon}</div>
-        <div class="file-info">
-          <div class="file-name">${item.name}</div>
-          <div class="file-meta">${isFolder?'Klasör':formatSize(item.size)}</div>
-        </div>
-        <div class="file-chevron">›</div>`;
-      div.addEventListener('click',()=>{
-        if(isFolder){ STATE.stack.push({name:item.name,folderId:item.id}); updateHeader(); loadFiles(item.id,item.name); }
-        else { openFile(item); }
-      });
-      list.appendChild(div);
-    });
-    showScreen('files');
-  } catch(e){ showMsg('Hata',e.message); }
-}
-
-function formatSize(bytes) {
-  if(!bytes) return '';
-  const b=parseInt(bytes);
-  if(b>1e9) return (b/1e9).toFixed(1)+' GB';
-  if(b>1e6) return (b/1e6).toFixed(1)+' MB';
-  if(b>1e3) return (b/1e3).toFixed(0)+' KB';
-  return b+' B';
-}
-
-async function openFile(item) {
-  document.getElementById('viewerTitle').textContent=item.name;
-  document.getElementById('viewerMeta').textContent=formatSize(item.size)||'';
-  const content=document.getElementById('viewerContent');
-  content.innerHTML='<div class="loading"><div class="spinner"></div><div class="loading-text">Açılıyor...</div></div>';
-  showScreen('viewer');
-  STATE.stack.push({name:item.name,folderId:null});
-  updateHeader();
-  const ext=item.name.split('.').pop().toLowerCase();
-  const fileUrl=`https://www.googleapis.com/drive/v3/files/${item.id}?alt=media`;
-
-  if(['mp4','mov','webm','avi'].includes(ext)||item.mimeType?.includes('video')){
-    const video=document.createElement('video');
-    video.className='viewer-video'; video.controls=true; video.preload='metadata';
-    content.innerHTML=''; content.appendChild(video);
-    try {
-      const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
-      video.src=URL.createObjectURL(await resp.blob());
-    } catch(e) {
-      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:12px">🎬</div><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--orange);font-weight:800;font-size:15px">Drive'da Aç ↗</a></div>`;
-    }
-    return;
-  }
-
-  if(['jpg','jpeg','png','gif','webp'].includes(ext)||item.mimeType?.includes('image')){
-    try {
-      const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
-      content.innerHTML=`<img class="viewer-image" src="${URL.createObjectURL(await resp.blob())}" alt="${item.name}">`;
-    } catch(e) {
-      content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--orange)">Drive'da Aç ↗</a></div>`;
-    }
-    return;
-  }
-
-  if(ext==='pdf'||item.mimeType?.includes('pdf')){
-    content.innerHTML=`<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview"></iframe>`;
-    return;
-  }
-
-  if(['txt','md'].includes(ext)||item.mimeType?.includes('text')){
-    try {
-      const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});
-      const text=await resp.text();
-      content.innerHTML=`<div class="viewer-text">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`;
-    } catch(e) { content.innerHTML='<div class="viewer-text">Metin açılamadı.</div>'; }
-    return;
-  }
-
-  content.innerHTML=`<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview?authuser=0"></iframe>`;
-}
-
-function showMsg(title,desc) {
-  const list=document.getElementById('fileList');
-  list.innerHTML=`<div class="msg-box"><div class="msg-icon">⚠️</div><div class="msg-title">${title}</div><div class="msg-desc">${desc}</div><button class="btn-secondary" onclick="showScreen('auth')">Ayarlara Dön</button></div>`;
-  showScreen('files');
-}
-
-window.addEventListener('load',()=>{
-  if(window.location.hash.includes('access_token')){ handleOAuthCallback(); return; }
-  const savedClientId=load('clientId');
-  const savedToken=load('accessToken');
-  const savedFolder=load('rootFolderName');
-  const savedTime=load('tokenTime');
-  if(savedClientId){ STATE.clientId=savedClientId; document.getElementById('clientIdInput').value=savedClientId; }
-  if(savedFolder){ STATE.rootFolderName=savedFolder; document.getElementById('rootFolderName').value=savedFolder; }
-  const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<604800000);
-  if(tokenValid){ STATE.accessToken=savedToken; updateDriveBtn(true); initApp(); }
-  else if(savedClientId) {
-    // Token süresi dolmuş, giriş ekranını göster
-    STATE.clientId=savedClientId;
-    STATE.rootFolderName=savedFolder||'Tarifler';
-    showScreen('auth');
-  }
-  else { showScreen('auth'); }
-});
+const STATE={accessToken:null,rootFolderId:null,clientId:null,rootFolderName:'Tarifler',stack:[]};
+const CAT_EMOJIS={'ekmek':'🍞','yöresel':'🫕','yoresel':'🫕','makarna':'🍝','mantı':'🥟','manti':'🥟','pizza':'🍕','tatlı':'🍰','tatli':'🍰','dondurma':'🍦','çorba':'🍲','corba':'🍲','salata':'🥗','et':'🥩','tavuk':'🍗','balık':'🐟','balik':'🐟','börek':'🥐','borek':'🥐','yemek':'🍜','sebze':'🥦','meyve':'🍎','kahvaltı':'🍳','kahvalti':'🍳','pilav':'🍚','kek':'🎂','kurabiye':'🍪','hamur':'🥐','pide':'🫓'};
+function getCatEmoji(n){const l=n.toLowerCase();for(const[k,v]of Object.entries(CAT_EMOJIS)){if(l.includes(k))return v;}return '📁';}
+function getFileIcon(n,m){if(m==='application/vnd.google-apps.folder')return{icon:'📂',cls:'folder'};const e=n.split('.').pop().toLowerCase();if(['mp4','mov','avi','mkv','webm'].includes(e)||m?.includes('video'))return{icon:'🎬',cls:'video'};if(['jpg','jpeg','png','gif','webp'].includes(e)||m?.includes('image'))return{icon:'🖼',cls:'image'};if(e==='pdf'||m?.includes('pdf'))return{icon:'📄',cls:'pdf'};if(['txt','md'].includes(e)||m?.includes('text'))return{icon:'📝',cls:'text'};return{icon:'📎',cls:'text'};}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function load(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
+function showScreen(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('searchResults').classList.remove('active');document.getElementById('screen-'+n).classList.add('active');}
+function showToast(msg,dur=2500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
+function updateHeader(){const btn=document.getElementById('backBtn');const bc=document.getElementById('breadcrumb');if(STATE.stack.length>0){btn.classList.add('visible');bc.textContent=STATE.stack.map(s=>s.name).join(' › ');}else{btn.classList.remove('visible');bc.textContent='Lezzetli Tarifler';}}
+function goBack(){if(document.getElementById('searchResults').classList.contains('active')){clearSearch();return;}STATE.stack.pop();updateHeader();if(STATE.stack.length===0){loadCategories();}else{const p=STATE.stack[STATE.stack.length-1];loadFiles(p.folderId,p.name,true);}}
+let searchTimeout=null;
+function handleSearch(val){const cl=document.getElementById('searchClear');const ic=document.getElementById('searchIcon');if(val.length>0){cl.classList.add('visible');ic.style.display='none';}else{cl.classList.remove('visible');ic.style.display='';hideSearchResults();return;}clearTimeout(searchTimeout);searchTimeout=setTimeout(()=>doSearch(val),300);}
+function clearSearch(){document.getElementById('searchInput').value='';document.getElementById('searchClear').classList.remove('visible');document.getElementById('searchIcon').style.display='';hideSearchResults();}
+function hideSearchResults(){document.getElementById('searchResults').classList.remove('active');const ls=STATE.stack.length>0?'files':'categories';document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+ls).classList.add('active');}
+async function doSearch(query){if(!STATE.accessToken)return;const q=query.toLowerCase().trim();if(!q)return;try{const dq=`name contains '${q}' and trashed=false`;const data=await driveRequest(`files?q=${encodeURIComponent(dq)}&fields=files(id,name,mimeType,size)&orderBy=name&pageSize=30`);const files=(data?.files||[]).filter(f=>f.mimeType!=='application/vnd.google-apps.folder');const label=document.getElementById('searchResultLabel');const list=document.getElementById('searchResultList');document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('searchResults').classList.add('active');if(files.length===0){label.textContent='"'+query+'" için sonuç bulunamadı';list.innerHTML='<div class="no-results"><div class="no-results-icon">🔍</div><div class="no-results-text">Sonuç bulunamadı</div></div>';return;}label.textContent=files.length+' sonuç: "'+query+'"';list.innerHTML='';files.forEach(item=>{const{icon,cls}=getFileIcon(item.name,item.mimeType);const div=document.createElement('div');div.className='file-item';div.innerHTML=`<div class="file-icon-wrap ${cls}">${icon}</div><div class="file-info"><div class="file-name">${item.name}</div><div class="file-meta">${formatSize(item.size)}</div></div><div class="file-chevron">›</div>`;div.addEventListener('click',()=>{clearSearch();openFile(item);});list.appendChild(div);});}catch(e){console.error(e);}}
+function saveAndConnect(){const clientId=document.getElementById('clientIdInput').value.trim();const folderName=document.getElementById('rootFolderName').value.trim()||'Tarifler';if(!clientId){showToast('⚠️ Client ID gerekli');return;}STATE.clientId=clientId;STATE.rootFolderName=folderName;save('clientId',clientId);save('rootFolderName',folderName);startOAuth();}
+function startOAuth(){const clientId=STATE.clientId||load('clientId');if(!clientId){showToast('⚠️ Önce Client ID gir');return;}STATE.clientId=clientId;const redirectUri=getRedirectUri();save('redirectUri',redirectUri);const params=new URLSearchParams({client_id:clientId,redirect_uri:redirectUri,response_type:'token',scope:'https://www.googleapis.com/auth/drive.readonly',include_granted_scopes:'true',prompt:'select_account',login_hint:'zeynep12121987@gmail.com'});window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+params;}
+function getRedirectUri(){return window.location.href.split('#')[0].split('?')[0];}
+function handleOAuthCallback(){const hash=window.location.hash.substring(1);const params=new URLSearchParams(hash);const token=params.get('access_token');if(token){STATE.accessToken=token;save('accessToken',token);save('tokenTime',Date.now());window.history.replaceState({},'',window.location.pathname);updateDriveBtn(true);showToast('✅ Drive bağlandı!');initApp();}}
+function handleDriveBtn(){if(STATE.accessToken){STATE.accessToken=null;save('accessToken',null);updateDriveBtn(false);showScreen('auth');showToast('Çıkış yapıldı');}else{showScreen('auth');}}
+function updateDriveBtn(connected){const btn=document.getElementById('driveBtn');const txt=document.getElementById('driveBtnText');if(connected){btn.classList.add('connected');txt.textContent='Bağlı ✓';}else{btn.classList.remove('connected');txt.textContent='Drive';}}
+async function driveRequest(endpoint){const res=await fetch('https://www.googleapis.com/drive/v3/'+endpoint,{headers:{Authorization:'Bearer '+STATE.accessToken}});if(!res.ok){if(res.status===401){STATE.accessToken=null;showScreen('auth');showToast('⚠️ Oturum doldu, tekrar giriş yap');return null;}throw new Error('Drive API hatası: '+res.status);}return res.json();}
+async function findFolder(name,parentId=null){let q=`name='${name}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;if(parentId)q+=` and '${parentId}' in parents`;const data=await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name)`);return data?.files?.[0]||null;}
+async function listFolder(folderId){const q=`'${folderId}' in parents and trashed=false`;const data=await driveRequest(`files?q=${encodeURIComponent(q)}&fields=files(id,name,mimeType,size,modifiedTime)&orderBy=name`);return data?.files||[];}
+async function initApp(){showScreen('loading');document.getElementById('loadingText').textContent='Tarifler klasörü aranıyor...';try{const folderName=STATE.rootFolderName||load('rootFolderName')||'Tarifler';const folder=await findFolder(folderName);if(!folder){showMsg('Klasör Bulunamadı',`Drive'da "${folderName}" klasörü bulunamadı.`);return;}STATE.rootFolderId=folder.id;STATE.stack=[];updateHeader();await loadCategories();}catch(e){showMsg('Hata',e.message);}}
+async function loadCategories(){showScreen('loading');document.getElementById('loadingText').textContent='Kategoriler yükleniyor...';try{const items=await listFolder(STATE.rootFolderId);if(!items)return;const grid=document.getElementById('categoriesGrid');grid.innerHTML='';if(items.length===0){grid.innerHTML='<div class="msg-box" style="grid-column:1/-1"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';showScreen('categories');return;}items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));items.forEach(item=>{const isFolder=item.mimeType==='application/vnd.google-apps.folder';const emoji=isFolder?getCatEmoji(item.name):getFileIcon(item.name,item.mimeType).icon;const card=document.createElement('div');card.className='cat-card';card.innerHTML=`<div><span class="cat-emoji">${emoji}</span><div class="cat-name">${item.name}</div><div class="cat-count">${isFolder?'Klasör':'Dosya'}</div></div><div class="cat-arrow">›</div>`;card.addEventListener('click',()=>{if(isFolder){STATE.stack=[{name:item.name,folderId:item.id}];updateHeader();loadFiles(item.id,item.name);}else{STATE.stack=[];openFile(item);}});grid.appendChild(card);});showScreen('categories');}catch(e){showMsg('Hata',e.message);}}
+async function loadFiles(folderId,folderName,isBack=false){showScreen('loading');document.getElementById('loadingText').textContent=`"${folderName}" yükleniyor...`;try{const items=await listFolder(folderId);if(!items)return;const list=document.getElementById('fileList');list.innerHTML='';if(items.length===0){list.innerHTML='<div class="msg-box"><div class="msg-icon">📭</div><div class="msg-title">Klasör Boş</div></div>';showScreen('files');return;}items.sort((a,b)=>a.name.localeCompare(b.name,'tr'));items.forEach(item=>{const isFolder=item.mimeType==='application/vnd.google-apps.folder';const{icon,cls}=getFileIcon(item.name,item.mimeType);const dIcon=isFolder?'📂':icon;const dCls=isFolder?'folder':cls;const div=document.createElement('div');div.className='file-item';div.innerHTML=`<div class="file-icon-wrap ${dCls}">${dIcon}</div><div class="file-info"><div class="file-name">${item.name}</div><div class="file-meta">${isFolder?'Klasör':formatSize(item.size)}</div></div><div class="file-chevron">›</div>`;div.addEventListener('click',()=>{if(isFolder){STATE.stack.push({name:item.name,folderId:item.id});updateHeader();loadFiles(item.id,item.name);}else{openFile(item);}});list.appendChild(div);});showScreen('files');}catch(e){showMsg('Hata',e.message);}}
+function formatSize(bytes){if(!bytes)return'';const b=parseInt(bytes);if(b>1e9)return(b/1e9).toFixed(1)+' GB';if(b>1e6)return(b/1e6).toFixed(1)+' MB';if(b>1e3)return(b/1e3).toFixed(0)+' KB';return b+' B';}
+async function openFile(item){document.getElementById('viewerTitle').textContent=item.name;document.getElementById('viewerMeta').textContent=formatSize(item.size)||'';const content=document.getElementById('viewerContent');content.innerHTML='<div class="loading"><div class="spinner"></div><div class="loading-text">Açılıyor...</div></div>';showScreen('viewer');STATE.stack.push({name:item.name,folderId:null});updateHeader();const ext=item.name.split('.').pop().toLowerCase();const fileUrl=`https://www.googleapis.com/drive/v3/files/${item.id}?alt=media`;
+if(['mp4','mov','webm','avi'].includes(ext)||item.mimeType?.includes('video')){const video=document.createElement('video');video.className='viewer-video';video.controls=true;video.preload='metadata';content.innerHTML='';content.appendChild(video);try{const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});video.src=URL.createObjectURL(await resp.blob());}catch(e){content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:12px">🎬</div><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--orange);font-weight:800">Drive'da Aç ↗</a></div>`;}return;}
+if(['jpg','jpeg','png','gif','webp'].includes(ext)||item.mimeType?.includes('image')){try{const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});content.innerHTML=`<img class="viewer-image" src="${URL.createObjectURL(await resp.blob())}" alt="${item.name}">`;}catch(e){content.innerHTML=`<div class="viewer-text" style="text-align:center;padding:40px"><a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" style="color:var(--orange)">Drive'da Aç ↗</a></div>`;}return;}
+if(ext==='pdf'||item.mimeType?.includes('pdf')){content.innerHTML=`<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview"></iframe>`;return;}
+if(['txt','md'].includes(ext)||item.mimeType?.includes('text')){try{const resp=await fetch(fileUrl,{headers:{Authorization:'Bearer '+STATE.accessToken}});const text=await resp.text();content.innerHTML=`<div class="viewer-text">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`;}catch(e){content.innerHTML='<div class="viewer-text">Metin açılamadı.</div>';}return;}
+content.innerHTML=`<iframe class="viewer-pdf" src="https://drive.google.com/file/d/${item.id}/preview?authuser=0"></iframe>`;}
+function showMsg(title,desc){const list=document.getElementById('fileList');list.innerHTML=`<div class="msg-box"><div class="msg-icon">⚠️</div><div class="msg-title">${title}</div><div class="msg-desc">${desc}</div><button class="btn-secondary" onclick="showScreen('auth')">Ayarlara Dön</button></div>`;showScreen('files');}
+window.addEventListener('load',()=>{if(window.location.hash.includes('access_token')){handleOAuthCallback();return;}const savedClientId=load('clientId');const savedToken=load('accessToken');const savedFolder=load('rootFolderName');const savedTime=load('tokenTime');if(savedClientId){STATE.clientId=savedClientId;document.getElementById('clientIdInput').value=savedClientId;}if(savedFolder){STATE.rootFolderName=savedFolder;document.getElementById('rootFolderName').value=savedFolder;}const tokenValid=savedToken&&savedTime&&(Date.now()-savedTime<604800000);if(tokenValid){STATE.accessToken=savedToken;updateDriveBtn(true);initApp();}else{showScreen('auth');}});
 </script>
 </body>
 </html>
